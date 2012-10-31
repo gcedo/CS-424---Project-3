@@ -33,19 +33,56 @@ public class DBUtil {
 
     }
 
-    public ArrayList<LocationWrapper> getPoints(Location loc) {
+    public ArrayList<LocationWrapper> getPointsByLocation(Location loc) {
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT id, latitude, longitude FROM crashes WHERE GLength( LineString(( PointFromWKB( position)), ( PointFromWKB( POINT( "
-			    + loc.lat + ", " + loc.lon + " ) )))) < 0.5");
+		    .executeQuery("SELECT crash_id, latitude, longitude FROM crashes WHERE GLength( LineString(( PointFromWKB( position)), ( PointFromWKB( POINT( "
+			    + loc.lat
+			    + ", "
+			    + loc.lon
+			    + " ) )))) < 0.5 GROUP BY crash_id");
 	    while (r.next()) {
-		System.out.println(new Integer(r.getInt(1)));
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
 			.getFloat(2), r.getFloat(3)));
 	    }
 	    return ret;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return null;
+	}
+
+    }
+
+    public ArrayList<LocationWrapper> getPointsByState(Integer stateId) {
+	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
+	try {
+	    Statement stm = con.createStatement();
+	    ResultSet r = stm
+		    .executeQuery("SELECT crash_id, latitude, longitude FROM crashes WHERE istatenum = "
+			    + stateId + " GROUP BY crash_id");
+	    while (r.next()) {
+		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
+			.getFloat(2), r.getFloat(3)));
+	    }
+	    return ret;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return null;
+	}
+    }
+
+    public Location getStateCenter(Integer stateId) {
+	try {
+	    Statement stm = con.createStatement();
+	    ResultSet r = stm
+		    .executeQuery("SELECT lat, lon FROM states WHERE id = "
+			    + stateId + "LIMIT 1");
+	    if (r.next()) {
+		return new Location(r.getFloat(1), r.getFloat(2));
+	    }
+	    return null;
 	} catch (SQLException e) {
 	    e.printStackTrace();
 	    return null;

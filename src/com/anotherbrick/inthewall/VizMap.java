@@ -12,6 +12,7 @@ import application.DBUtil;
 
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.modestmaps.InteractiveMap;
+import com.modestmaps.core.Coordinate;
 import com.modestmaps.core.Point2f;
 import com.modestmaps.geo.Location;
 import com.modestmaps.providers.Microsoft;
@@ -183,7 +184,6 @@ public class VizMap extends VizPanel implements TouchEnabled {
       touchList.put(id, t);
 
     }
-
   }
 
   public void addLocations(ArrayList<LocationWrapper> locations) {
