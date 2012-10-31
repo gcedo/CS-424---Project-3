@@ -189,7 +189,7 @@ public class VizMap extends VizPanel implements TouchEnabled {
 	    touchList.put(id, t);
 
 	}
-	addLocations(DBUtil.getInstance().getPoints(map.getCenter()));
+	addLocations(DBUtil.getInstance().getPointsByLocation(map.getCenter()));
     }
 
     private void addLocations(ArrayList<LocationWrapper> locations) {
