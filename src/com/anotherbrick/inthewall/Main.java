@@ -8,7 +8,7 @@ import processing.core.PApplet;
 
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.anotherbrick.inthewall.TouchEnabled.TouchTypeEnum;
-import com.example.app.Application;
+import application.Application;
 
 public class Main extends PApplet {
 

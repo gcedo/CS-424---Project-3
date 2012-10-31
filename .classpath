@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="OmicronAPI.jar"/>
 	<classpathentry kind="lib" path="resty-0.3.1.jar"/>
 	<classpathentry kind="lib" path="net.jar"/>
+	<classpathentry kind="lib" path="modestmaps.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
