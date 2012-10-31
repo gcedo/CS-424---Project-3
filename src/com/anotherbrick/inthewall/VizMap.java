@@ -10,6 +10,7 @@ import processing.core.PVector;
 
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.modestmaps.InteractiveMap;
+import com.modestmaps.core.Coordinate;
 import com.modestmaps.core.Point2f;
 import com.modestmaps.geo.Location;
 import com.modestmaps.providers.Microsoft;
@@ -35,6 +36,9 @@ public class VizMap extends VizPanel implements TouchEnabled {
   private float touchWidth = 5;
   public float MARKER_WIDTH = 10;
   public float MARKER_HEIGHT = 10;
+  private float SC_MIN = 12;
+  private float SC_MAX = 2041;
+  private Location ILLINOIS = new Location(40.633125f, -89.398528f);
 
   public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
@@ -58,6 +62,8 @@ public class VizMap extends VizPanel implements TouchEnabled {
 
     map = new InteractiveMap(m.p, new Microsoft.RoadProvider(), mapOffset.x, mapOffset.y,
         mapSize.x, mapSize.y);
+
+    map.setCenterZoom(ILLINOIS, 6);
 
     m.p.addMouseWheelListener(new MouseWheelListener() {
       @Override
@@ -159,6 +165,7 @@ public class VizMap extends VizPanel implements TouchEnabled {
         map.tx -= mx / map.sc;
         map.ty -= my / map.sc;
         map.sc *= sc;
+        map.sc = costrain((float) map.sc, SC_MAX, SC_MIN);
         map.tx += mx / map.sc;
         map.ty += my / map.sc;
       }
@@ -181,6 +188,8 @@ public class VizMap extends VizPanel implements TouchEnabled {
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
     if (down) {
+
+      log("sc: " + map.sc);
 
       for (AbstractMarker marker : markers) {
         if (marker.containsPoint(x, y)) {
@@ -228,7 +237,12 @@ public class VizMap extends VizPanel implements TouchEnabled {
     map.tx -= mx / map.sc;
     map.ty -= my / map.sc;
     map.sc *= sc;
+    map.sc = costrain((float) map.sc, SC_MAX, SC_MIN);
     map.tx += mx / map.sc;
     map.ty += my / map.sc;
+  }
+
+  private float costrain(float value, float maxValue, float minValue) {
+    return Math.min(Math.max(value, minValue), maxValue);
   }
 }
