@@ -24,8 +24,8 @@ public class Application extends VizPanel implements TouchEnabled {
   private FilterToolbox ft;
   private final float FT_WIDTH = 281;
   private final float FT_HEIGHT = 340;
-  private final float FT_X0 = 841;
-  private final float FT_Y0 = 362;
+  private final float FT_X0 = 560;
+  private final float FT_Y0 = 21;
 
   public Application(float x0, float y0, float width, float height) {
     super(x0, y0, width, height);
@@ -41,7 +41,12 @@ public class Application extends VizPanel implements TouchEnabled {
   public void setup() {
     map = new VizMap(MAP_X0, MAP_Y0, MAP_WIDTH, MAP_HEIGHT, this);
     map.setup();
+    // map.addLocations(DBUtil.getInstance().getPoints(map.ILLINOIS));
     addTouchSubscriber(map);
+
+    ft = new FilterToolbox(FT_X0, FT_Y0, FT_WIDTH, FT_HEIGHT, this);
+    ft.setup();
+    addTouchSubscriber(ft);
   }
 
   @Override
@@ -51,6 +56,9 @@ public class Application extends VizPanel implements TouchEnabled {
 
     map.draw();
     coverExceedingTiles();
+
+    ft.draw();
+
     popStyle();
     return false;
   }

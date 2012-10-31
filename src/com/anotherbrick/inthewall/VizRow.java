@@ -9,13 +9,6 @@ import com.anotherbrick.inthewall.Config.MyColorEnum;
 
 public class VizRow extends VizPanel {
 
-  private static final int ROW_HEIGHT = 0;
-  private static final float MOVIE_ROW_X = 0;
-  private static final float YEAR_VALUE_X = 0;
-  private static final float FIRST_PLOT_X = 0;
-  private static final float SECOND_PLOT_X = 0;
-  private static final float THIRD_PLOT_X = 0;
-  private static final float FOURTH_PLOT_X = 0;
   private ArrayList<PVector> values;
   public boolean selected = false;
   public MyColorEnum backgroundColorSelected, backgroundColor, strokeColor;
@@ -50,9 +43,9 @@ public class VizRow extends VizPanel {
     noStroke();
     textSize(12);
     fill(MyColorEnum.WHITE);
-    textAlign(PApplet.LEFT, PApplet.BASELINE);
-    text(cropAtNChars != -1 ? Helper.limitStringLength(name, cropAtNChars, true) : name,
-        MOVIE_ROW_X, ROW_HEIGHT - 1);
+    textAlign(PApplet.LEFT, PApplet.CENTER);
+    text(cropAtNChars != -1 ? Helper.limitStringLength(name, cropAtNChars, true) : name, 0,
+        getHeight() / 2);
     popStyle();
 
     return false;
@@ -76,22 +69,6 @@ public class VizRow extends VizPanel {
   public boolean draw() {
     pushStyle();
     drawBackground();
-    fill(MyColorEnum.WHITE);
-    textSize(12);
-    textAlign(PApplet.CENTER, PApplet.BASELINE);
-    if (values != null && values.size() > 0) {
-      int year = (int) values.get(0).x;
-      text(Integer.toString(year), YEAR_VALUE_X, ROW_HEIGHT - 1);
-      textAlign(PApplet.RIGHT, PApplet.BASELINE);
-      if (values.get(0) != null)
-        text(((Float) values.get(0).y).toString(), FIRST_PLOT_X, ROW_HEIGHT - 1);
-      if (values.size() == 2)
-        text(((Float) values.get(1).y).toString(), SECOND_PLOT_X, ROW_HEIGHT - 1);
-      if (values.size() == 3)
-        text(((Float) values.get(2).y).toString(), THIRD_PLOT_X, ROW_HEIGHT - 1);
-      if (values.size() == 4)
-        text(((Float) values.get(3).y).toString(), FOURTH_PLOT_X, ROW_HEIGHT - 1);
-    }
     popStyle();
     return false;
   }
@@ -100,9 +77,7 @@ public class VizRow extends VizPanel {
     return name;
   }
 
-@Override
-public void setup() {
-    // TODO Auto-generated method stub
-    
-}
+  @Override
+  public void setup() {
+  }
 }

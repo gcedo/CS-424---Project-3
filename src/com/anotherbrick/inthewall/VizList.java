@@ -33,8 +33,10 @@ public class VizList extends VizPanel implements TouchEnabled {
   @SuppressWarnings("unchecked")
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
-    if (!isVisible()) return false;
-    if (selectionMode == SelectionMode.NOT_SELECTABLE) return true;
+    if (!isVisible())
+      return false;
+    if (selectionMode == SelectionMode.NOT_SELECTABLE)
+      return true;
     setToRedraw();
     if (!propagateTouch(x, y, down, touchType)) {
       if (!down) {
@@ -71,7 +73,8 @@ public class VizList extends VizPanel implements TouchEnabled {
               }
             } else {
               boolean first = true;
-              if (selectionMode == SelectionMode.SINGLE_OR_WHOLE_CATEGORY) selectedObjects.clear();
+              if (selectionMode == SelectionMode.SINGLE_OR_WHOLE_CATEGORY)
+                selectedObjects.clear();
               for (Object yy : (ArrayList<Object>) category) {
                 if (!first) {
                   selectElement(
@@ -106,7 +109,8 @@ public class VizList extends VizPanel implements TouchEnabled {
   }
 
   private void deselectElement(Object element, SelectionMode s) {
-    if (s == SelectionMode.SINGLE_OR_WHOLE_CATEGORY) selectedObjects.clear();
+    if (s == SelectionMode.SINGLE_OR_WHOLE_CATEGORY)
+      selectedObjects.clear();
     if (selectedObjects.contains(element)) {
       selectedObjects.remove(element);
     }
@@ -160,6 +164,7 @@ public class VizList extends VizPanel implements TouchEnabled {
     }
 
     slider = new VizSlider(getWidth() - 20, 0, 20, getHeight(), this);
+    slider.setup();
     addTouchSubscriber(slider);
 
   }
@@ -171,8 +176,8 @@ public class VizList extends VizPanel implements TouchEnabled {
   @SuppressWarnings("unchecked")
   @Override
   public boolean draw() {
-    if (!startDraw()) return false;
-    //
+    if (!startDraw())
+      return false;
     pushStyle();
     noStroke();
     background(MyColorEnum.MEDIUM_GRAY);
@@ -232,7 +237,6 @@ public class VizList extends VizPanel implements TouchEnabled {
         row.drawStrings(c.translate(elements.get(i).toString()));
       }
     }
-    // stroke arount
     noFill();
     if (strokeWeight > 0) {
       stroke(strokeColor);
@@ -250,7 +254,7 @@ public class VizList extends VizPanel implements TouchEnabled {
     public boolean moving;
 
     public Handle(float x0, float y0, VizPanel parent) {
-      super(x0, y0, 20, 20); // controllare cosa sia questo i 20 sono a caso
+      super(x0, y0, 20, 20, parent);
       moving = false;
     }
 
@@ -265,8 +269,6 @@ public class VizList extends VizPanel implements TouchEnabled {
 
     @Override
     public void setup() {
-	// TODO Auto-generated method stub
-	
     }
 
   }
@@ -326,25 +328,22 @@ public class VizList extends VizPanel implements TouchEnabled {
 
     @Override
     public void setup() {
-	// TODO Auto-generated method stub
-	
     }
 
   }
 
   public void setStopIndex(float f) {
     stopIndex = (int) f;
-
   }
 
   public void setStartIndex(float f) {
     startIndex = (int) f;
   }
 
-@Override
-public void setup() {
+  @Override
+  public void setup() {
     // TODO Auto-generated method stub
-    
-}
+
+  }
 
 }
