@@ -38,8 +38,11 @@ public class DBUtil {
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT id, latitude, longitude FROM crashes WHERE GLength( LineString(( PointFromWKB( position)), ( PointFromWKB( POINT( "
-			    + loc.lat + ", " + loc.lon + " ) )))) < 0.5");
+		    .executeQuery("SELECT crash_id, latitude, longitude FROM crashes WHERE GLength( LineString(( PointFromWKB( position)), ( PointFromWKB( POINT( "
+			    + loc.lat
+			    + ", "
+			    + loc.lon
+			    + " ) )))) < 0.5 GROUP BY crash_id");
 	    while (r.next()) {
 		System.out.println(new Integer(r.getInt(1)));
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
