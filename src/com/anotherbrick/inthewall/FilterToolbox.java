@@ -14,7 +14,6 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
   public FilterToolbox(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
-    // TODO Auto-generated constructor stub
   }
 
   public static float LIST_W = 110;
