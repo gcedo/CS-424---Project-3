@@ -351,7 +351,8 @@ public class VizGraph extends VizPanel implements TouchEnabled {
 
   public void forceYearSliderUpdate() {
     yearSlider.modifyPositionWithAbsoluteValue(
-        costrain(m.touchX, getWidth() + 20, PLOT_PADDING_LEFT + 20), getY0Absolute());
+        costrain(m.touchX, getX0Absolute() + getWidth() + 20, getX0Absolute() + PLOT_PADDING_LEFT
+            + 20), getY0Absolute());
     setYear(yearSlider.getX0());
   }
 

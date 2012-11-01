@@ -97,10 +97,11 @@ public class Application extends VizPanel implements TouchEnabled {
     ArrayList<PVector> points = new ArrayList<PVector>();
 
     for (int i = 0; i < 100; i++) {
-      points.add(new PVector(i, generator.nextFloat()));
+      points.add(new PVector(i, 10 * generator.nextFloat()));
     }
 
     PlotData plot = new PlotData(points, MyColorEnum.RED);
+    plot.setFilled(true);
     graph.addPlot(plot, 0);
     timeslider.addPlot(plot, 0);
   }
