@@ -14,7 +14,7 @@ import com.anotherbrick.inthewall.VizTimeline.Modes;
 
 public class VizTimeSlider extends VizPanel implements TouchEnabled {
 
-  public float PADDING_LEFT = 0;
+  public float PADDING_LEFT = 40;
   public float HANDLE_WIDTH = 20;
   public float HANDLE_HEIGHT = 25;
   public float PADDING_BOTTOM = 13;
@@ -32,7 +32,7 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled {
       VizGraph graph) {
     super(x0, y0, width, height, parent);
     minValue = x0;
-    maxValue = x0 + width;
+    maxValue = width;
     zoomAreaWidth = width;
     this.graph = graph;
   }

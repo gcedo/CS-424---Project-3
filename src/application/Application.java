@@ -23,7 +23,7 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float MAP_Y0 = 0;
 
   private VizGraph graph;
-  private final float GRAPH_WIDTH = 476;
+  private final float GRAPH_WIDTH = 436;
   private final float GRAPH_HEIGHT = 270;
   private final float GRAPH_X0 = 861;
   private final float GRAPH_Y0 = 21;
@@ -31,7 +31,7 @@ public class Application extends VizPanel implements TouchEnabled {
   private VizTimeSlider timeslider;
   private final float SLIDER_WIDTH = 436;
   private final float SLIDER_HEIGHT = 25;
-  private final float SLIDER_X0 = 901;
+  private final float SLIDER_X0 = 861;
   private final float SLIDER_Y0 = 290;
 
   private FilterToolbox ft;
@@ -61,10 +61,10 @@ public class Application extends VizPanel implements TouchEnabled {
 
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();
-    addDummyPlots();
 
     timeslider = new VizTimeSlider(SLIDER_X0, SLIDER_Y0, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeslider.setup();
+    addDummyPlots();
     addTouchSubscriber(timeslider);
   }
 
@@ -102,5 +102,6 @@ public class Application extends VizPanel implements TouchEnabled {
 
     PlotData plot = new PlotData(points, MyColorEnum.RED);
     graph.addPlot(plot, 0);
+    timeslider.addPlot(plot, 0);
   }
 }
