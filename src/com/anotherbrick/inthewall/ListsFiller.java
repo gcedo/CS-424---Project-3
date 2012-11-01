@@ -35,4 +35,85 @@ public class ListsFiller {
     return wc;
   }
 
+  public static ArrayList<String> getMonths() {
+    ArrayList<String> months = new ArrayList<String>();
+    months.add("January");
+    months.add("February");
+    months.add("March");
+    months.add("April");
+    months.add("May");
+    months.add("June");
+    months.add("July");
+    months.add("August");
+    months.add("September");
+    months.add("October");
+    months.add("November");
+    months.add("December");
+
+    return months;
+  }
+
+  public static ArrayList<String> getLightConditions() {
+    ArrayList<String> lc = new ArrayList<String>();
+    lc.add("Daylight");
+    lc.add("Dark - Not Lighted");
+    lc.add("Dark - Lighted");
+    lc.add("Dawn");
+    lc.add("Dusk");
+    lc.add("Dark - Unknown Lighting");
+
+    return lc;
+  }
+
+  public static ArrayList<String> getSex() {
+    ArrayList<String> sex = new ArrayList<String>();
+    sex.add("Male");
+    sex.add("Female");
+
+    return sex;
+
+  }
+
+  public static ArrayList<String> getAge() {
+    ArrayList<String> age = new ArrayList<String>();
+    for (int i = 1; i <= 108; i++) {
+      age.add(Integer.toString(i));
+    }
+    return age;
+  }
+
+  public static ArrayList<String> getHour() {
+    ArrayList<String> hour = new ArrayList<String>();
+    for (int i = 1; i <= 24; i++) {
+      hour.add(Integer.toString(i));
+    }
+    return hour;
+  }
+
+  public static ArrayList<String> getVehicles() {
+    ArrayList<String> vehicles = new ArrayList<String>();
+    vehicles.add("automobile");
+    vehicles.add("utility vehicle");
+    vehicles.add("van");
+    vehicles.add("pick-up and light truck");
+    vehicles.add("unknown light vehicle");
+    vehicles.add("bus");
+    vehicles.add("truck");
+    vehicles.add("motorcycle");
+
+    return vehicles;
+  }
+
+  public static ArrayList<String> getSpeeds() {
+    ArrayList<String> speeds = new ArrayList<String>();
+    for (int i = 0; i <= 151; i++) {
+      speeds.add(Integer.toString(i) + " MPH");
+    }
+
+    speeds.add("Greater than 151 MPH");
+    speeds.add("Not Reported");
+    speeds.add("Unknown");
+    return speeds;
+  }
+
 }
