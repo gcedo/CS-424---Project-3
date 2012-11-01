@@ -2,6 +2,8 @@ package com.anotherbrick.inthewall;
 
 import static com.anotherbrick.inthewall.Config.MyColorEnum.DARK_GRAY;
 import static com.anotherbrick.inthewall.Config.MyColorEnum.LIGHT_GRAY;
+import static com.anotherbrick.inthewall.Config.MyColorEnum.MEDIUM_GRAY;
+import static com.anotherbrick.inthewall.Config.MyColorEnum.WHITE;
 
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
@@ -27,11 +29,16 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     // should
     // break apart into individual instances)
 
-    private static final float CHANGE_MODE_X0 = 213;
-    private static final float CHANGE_MODE_Y0 = 100;
-    private static final float CHANGE_MODE_W = 150;
-    private static final float CHANGE_MODE_H = 110;
     private static final int CHANGE_MODE_ROWS = 3;
+    private static final float CHANGE_MODE_TOGGLE_X0 = 213;
+    private static final float CHANGE_MODE_TOGGLE_Y0 = 370;
+    private static final float CHANGE_MODE_TOGGLE_H = 10;
+    private static final float CHANGE_MODE_W = 130;
+    private static final float CHANGE_MODE_H = 80;
+
+    private static final float CHANGE_MODE_X0 = 213;
+    private static final float CHANGE_MODE_Y0 = CHANGE_MODE_TOGGLE_Y0
+	    - CHANGE_MODE_H;
 
     private InteractiveMap map;
     private PVector mapOffset;
@@ -52,21 +59,31 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     public Location ILLINOIS = new Location(40.633125f, -89.398528f);
 
     private VizList changeMapMode;
+    private VizButton changeModeToggle;
 
     private Integer selectedStateId = 17;
 
     public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
 	super(x0, y0, width, height, parent);
 	this.parent = parent;
+	changeModeToggle = new VizButton(CHANGE_MODE_TOGGLE_X0,
+		CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H,
+		this);
+	changeModeToggle.setText("Map Mode");
+	changeModeToggle.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
+	changeModeToggle.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255,
+		255, 14);
+	changeModeToggle.setRoundedCornerd(5, 5, 5, 5);
+
 	changeMapMode = new VizList(CHANGE_MODE_X0, CHANGE_MODE_Y0,
 		CHANGE_MODE_W, CHANGE_MODE_H, this);
-	ArrayList<String> mapModes = new ArrayList<String>();
-	mapModes.add(MapStyles.MICROSOFT_AERIAL.toString());
-	mapModes.add(MapStyles.MICROSOFT_HYBRID.toString());
-	mapModes.add(MapStyles.MICROSOFT_ROAD.toString());
+	ArrayList<MapStyles> mapModes = new ArrayList<MapStyles>();
+	mapModes.add(MapStyles.MICROSOFT_AERIAL);
+	mapModes.add(MapStyles.MICROSOFT_HYBRID);
+	mapModes.add(MapStyles.MICROSOFT_ROAD);
 	changeMapMode.setup(LIGHT_GRAY, DARK_GRAY, CHANGE_MODE_ROWS, mapModes,
 		false, SelectionMode.SINGLE);
-	// changeMapMode.setVisible(false);
+	changeMapMode.setVisible(false);
 	addTouchSubscriber(changeMapMode);
 	NotificationCenter.getInstance().registerToEvent("year-changed", this);
 
@@ -117,7 +134,8 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
 	changeMapMode.setToRedraw();
 	changeMapMode.draw();
-
+	changeModeToggle.setToRedraw();
+	changeModeToggle.draw();
 	popStyle();
 	return false;
     }
@@ -225,7 +243,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     @Override
     public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
-	if (down && !changeMapMode.containsPoint(x, y)) {
+	if (down && changeModeToggle.containsPoint(x, y)) {
+	    if (changeMapMode.isVisible()) {
+		changeMapStyle((MapStyles) changeMapMode.getSelected().get(0));
+	    }
+	    changeMapMode.toggleVisible();
+	    return false;
+	}
+	if (down && changeMapMode.containsPoint(x, y)) {
 
 	    log("sc: " + map.sc);
 
@@ -285,6 +310,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     }
 
     private void setYear(Integer year) {
+	locationsList.clear();
 	addLocations(DBUtil.getInstance().getPointsByState(selectedStateId,
 		year));
     }
