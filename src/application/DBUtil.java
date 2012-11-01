@@ -55,13 +55,17 @@ public class DBUtil {
 
     }
 
-    public ArrayList<LocationWrapper> getPointsByState(Integer stateId) {
+    public ArrayList<LocationWrapper> getPointsByState(Integer stateId,
+	    Integer year) {
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT crash_id, latitude, longitude FROM crashes WHERE istatenum = "
-			    + stateId + " GROUP BY crash_id");
+		    .executeQuery("SELECT crash_id, latitude, longitude FROM crashes_numeric WHERE istatenum = "
+			    + stateId
+			    + " AND iaccyr = "
+			    + year
+			    + " GROUP BY crash_id");
 	    while (r.next()) {
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
 			.getFloat(2), r.getFloat(3)));

@@ -5,35 +5,37 @@ import java.util.HashMap;
 
 public class NotificationCenter {
 
-  private static NotificationCenter instance = new NotificationCenter();
+    private static NotificationCenter instance;
 
-  public enum EventName {
-    GRAPH_YEAR_CHANGED
-  }
+    private HashMap<String, ArrayList<EventSubscriber>> subscribers;
 
-  private HashMap<EventName, ArrayList<EventSubscriber>> subscribers;
-
-  public NotificationCenter getInstance() {
-    return instance;
-  }
-
-  private NotificationCenter() {
-    subscribers = new HashMap<NotificationCenter.EventName, ArrayList<EventSubscriber>>();
-  }
-
-  public void registerToEvent(EventName eventName, EventSubscriber eventSubscriber) {
-    if (!subscribers.get(eventName).contains(eventSubscriber)) {
-      subscribers.get(eventName).add(eventSubscriber);
+    public static NotificationCenter getInstance() {
+	if (instance == null)
+	    instance = new NotificationCenter();
+	return instance;
     }
-  }
 
-  public void notifyEvent(EventName eventName) {
-    notifyEvent(eventName, null);
-  }
-
-  public void notifyEvent(EventName eventName, Object data) {
-    for (EventSubscriber es : subscribers.get(eventName)) {
-      es.eventReceived(eventName, data);
+    private NotificationCenter() {
+	subscribers = new HashMap<String, ArrayList<EventSubscriber>>();
     }
-  }
+
+    public void registerToEvent(String eventName,
+	    EventSubscriber eventSubscriber) {
+	if (!subscribers.containsKey(eventName)) {
+	    subscribers.put(eventName, new ArrayList<EventSubscriber>());
+	}
+	if (!subscribers.get(eventName).contains(eventSubscriber)) {
+	    subscribers.get(eventName).add(eventSubscriber);
+	}
+    }
+
+    public void notifyEvent(String eventName) {
+	notifyEvent(eventName, null);
+    }
+
+    public void notifyEvent(String eventName, Object data) {
+	for (EventSubscriber es : subscribers.get(eventName)) {
+	    es.eventReceived(eventName, data);
+	}
+    }
 }
