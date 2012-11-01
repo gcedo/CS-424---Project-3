@@ -8,17 +8,12 @@ public class VizTimeline extends VizPanel implements TouchEnabled {
   private static final float GRAPH_WIDTH = 440;
   private static final float GRAPH_Y = 0;
   private static final float GRAPH_X = 0;
-  private static final float TABLE_HEIGHT = 0;
-  private static final float TABLE_WIDTH = 0;
-  private static final float TABLE_Y = 0;
-  private static final float TABLE_X = 0;
   private static final float SLIDER_HEIGHT = 25;
   private static final float SLIDER_WIDTH = 440;
   private static final float SLIDER_Y = 260;
   private static final float SLIDER_X = 0;
   private static final float TIMELINE_WIDTH = 440;
   private VizGraph graph;
-  private VizTable table;
   private VizTimeSlider timeSlider;
 
   public enum Modes {
@@ -37,11 +32,7 @@ public class VizTimeline extends VizPanel implements TouchEnabled {
     graph.setup();
     addTouchSubscriber(graph);
 
-    table = new VizTable(TABLE_X, TABLE_Y, TABLE_WIDTH, TABLE_HEIGHT, this);
-    table.setup(MyColorEnum.MEDIUM_GRAY, MyColorEnum.LIGHT_GRAY);
-
-    timeSlider = new VizTimeSlider(SLIDER_X, SLIDER_Y, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph,
-        table, this);
+    timeSlider = new VizTimeSlider(SLIDER_X, SLIDER_Y, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeSlider.setup();
     addTouchSubscriber(timeSlider);
 
@@ -56,24 +47,21 @@ public class VizTimeline extends VizPanel implements TouchEnabled {
   public void addPlot(PlotData plot, int index) {
     graph.addPlot(plot, index);
     timeSlider.addPlot(plot, index);
-    table.addPlot(plot, index);
     setToRedraw();
   }
 
   public void removePlotAtIndex(int index) {
     graph.removePlotAtIndex(index);
-    table.removePlotAtIndex(index);
     timeSlider.removePlotAtIndex(index);
   }
 
   @Override
   public boolean draw() {
-    if (!startDraw())
-      return false;
+    // if (!startDraw())
+    // return false;
     boolean willNeedToBeRedrawn = false;
 
     graph.setToRedraw();
-    table.setToRedraw();
     timeSlider.setToRedraw();
     pushStyle();
     noStroke();
@@ -86,14 +74,13 @@ public class VizTimeline extends VizPanel implements TouchEnabled {
       willNeedToBeRedrawn = graph.draw() || willNeedToBeRedrawn;
       break;
     case TABLE:
-      table.draw();
       break;
     default:
       break;
     }
 
     popStyle();
-    return endDraw(willNeedToBeRedrawn);
+    return false;
   }
 
   private void drawTitle() {
