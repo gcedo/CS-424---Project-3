@@ -3,6 +3,17 @@ package com.anotherbrick.inthewall;
 import java.util.ArrayList;
 
 public class ListsFiller {
+  public static final String DAY_OF_WEEK = "dayofweek";
+  public static final String WEATHER_CONDITION = "weathercondition";
+  public static final String MONTHS = "months";
+  public static final String ALCOHOL = "alcohol";
+  public static final String SPEED = "speed";
+  public static final String VEHICLE = "vehicle";
+  public static final String AGE = "age";
+  public static final String HOUR = "hour";
+  public static final String SEX = "sex";
+  public static final String LIGHT_CONDITION = "lightcondition";
+  public static final String CRASH_ID = "crashid";
 
   public static ArrayList<String> getDaysOfWeek() {
     ArrayList<String> days = new ArrayList<String>();

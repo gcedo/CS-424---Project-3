@@ -6,6 +6,8 @@ import static com.anotherbrick.inthewall.ListsFiller.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import application.FilterWrapper;
+
 import com.anotherbrick.inthewall.VizList.SelectionMode;
 
 public class FilterToolbox extends VizPanel implements TouchEnabled {
@@ -42,10 +44,21 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
       monthButton, hourButton, sexButton, lcButton, applyButton, removeButton;
 
   private HashMap<VizButton, VizList> listsAndButtons;
+  private FilterWrapper fw;
 
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
     if (down) {
+
+      if (applyButton.containsPoint(x, y)) {
+        fw.clearFilters(CRASH_ID);
+        for (VizList list : listsAndButtons.values()) {
+          for (Object filter : list.getSelected()) {
+            fw.addFilter(list.getListName(), (String) filter);
+          }
+        }
+      }
+
       for (Map.Entry<VizButton, VizList> entry : listsAndButtons.entrySet()) {
         VizButton button = entry.getKey();
         VizList list = entry.getValue();
@@ -67,6 +80,9 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
   @Override
   public void setup() {
 
+    // Filter Wrapper
+    fw = new FilterWrapper(CRASH_ID);
+
     // Apply Button
     applyButton = new VizButton(APPLY_X0, APPLY_Y0, APPLY_W, APPLY_H, this);
     applyButton.setShape("tick.svg");
@@ -80,6 +96,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Days of the week
     dayList = new VizList(SECOND_COL_X0, THIRD_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     dayList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getDaysOfWeek(), false, SelectionMode.MULTIPLE);
+    dayList.setListName(DAY_OF_WEEK);
 
     dayButton = new VizButton(SECOND_COL_X0, THIRD_ROW_Y0, LIST_W, BUTTON_H, this);
     dayButton.setText("Day of Week");
@@ -89,6 +106,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     weatherList = new VizList(FIRST_COL_X0, FIRST_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     weatherList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getWeatherConditions(), false,
         SelectionMode.MULTIPLE);
+    weatherList.setListName(WEATHER_CONDITION);
 
     weatherButton = new VizButton(FIRST_COL_X0, FIRST_ROW_Y0, LIST_W, BUTTON_H, this);
     weatherButton.setText("Weather");
@@ -97,6 +115,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Months
     monthList = new VizList(FIRST_COL_X0, FOURTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     monthList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getMonths(), false, SelectionMode.MULTIPLE);
+    monthList.setListName(MONTHS);
 
     monthButton = new VizButton(FIRST_COL_X0, FOURTH_ROW_Y0, LIST_W, BUTTON_H, this);
     monthButton.setText("Months");
@@ -105,6 +124,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Alcohol
     alcoholList = new VizList(SECOND_COL_X0, FIRST_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     alcoholList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getMonths(), false, SelectionMode.MULTIPLE);
+    alcoholList.setListName(ALCOHOL);
 
     alcoholButton = new VizButton(SECOND_COL_X0, FIRST_ROW_Y0, LIST_W, BUTTON_H, this);
     alcoholButton.setText("Alcohol");
@@ -113,6 +133,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Speed
     speedList = new VizList(FIRST_COL_X0, SECOND_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     speedList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getSpeeds(), false, SelectionMode.MULTIPLE);
+    speedList.setListName(SPEED);
 
     speedButton = new VizButton(FIRST_COL_X0, SECOND_ROW_Y0, LIST_W, BUTTON_H, this);
     speedButton.setText("Speed");
@@ -121,6 +142,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Type of Vehicle
     vehicleList = new VizList(SECOND_COL_X0, SECOND_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     vehicleList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getVehicles(), false, SelectionMode.MULTIPLE);
+    vehicleList.setListName(VEHICLE);
 
     vehicleButton = new VizButton(SECOND_COL_X0, SECOND_ROW_Y0, LIST_W, BUTTON_H, this);
     vehicleButton.setText("Vehicle");
@@ -129,6 +151,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Age
     ageList = new VizList(FIRST_COL_X0, THIRD_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     ageList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getAge(), false, SelectionMode.MULTIPLE);
+    ageList.setListName(AGE);
 
     ageButton = new VizButton(FIRST_COL_X0, THIRD_ROW_Y0, LIST_W, BUTTON_H, this);
     ageButton.setText("Age");
@@ -137,6 +160,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Hour
     hourList = new VizList(SECOND_COL_X0, FOURTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     hourList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getHour(), false, SelectionMode.MULTIPLE);
+    hourList.setListName(HOUR);
 
     hourButton = new VizButton(SECOND_COL_X0, FOURTH_ROW_Y0, LIST_W, BUTTON_H, this);
     hourButton.setText("Hour");
@@ -145,6 +169,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     // Sex
     sexList = new VizList(FIRST_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     sexList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getSex(), false, SelectionMode.MULTIPLE);
+    sexList.setListName(SEX);
 
     sexButton = new VizButton(FIRST_COL_X0, FIFTH_ROW_Y0, LIST_W, BUTTON_H, this);
     sexButton.setText("Sex");
@@ -154,6 +179,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     lcList = new VizList(SECOND_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
     lcList
         .setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getLightConditions(), false, SelectionMode.MULTIPLE);
+    lcList.setListName(LIGHT_CONDITION);
 
     lcButton = new VizButton(SECOND_COL_X0, FIFTH_ROW_Y0, LIST_W, BUTTON_H, this);
     lcButton.setText("Light Cond.");

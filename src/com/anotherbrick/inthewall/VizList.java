@@ -124,8 +124,12 @@ public class VizList extends VizPanel implements TouchEnabled {
     }
   }
 
-  public void setListNameForDebug(String name) {
+  public void setListName(String name) {
     this.name = name;
+  }
+
+  public String getListName() {
+    return this.name;
   }
 
   public String toString() {
