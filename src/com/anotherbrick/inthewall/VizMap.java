@@ -25,6 +25,8 @@ public class VizMap extends VizPanel implements TouchEnabled {
   // should
   // break apart into individual instances)
 
+  private static final int TTIP_W = 150;
+  private static final float TTIP_H = 200;
   private InteractiveMap map;
   private PVector mapOffset;
   private PVector mapSize;
@@ -42,6 +44,8 @@ public class VizMap extends VizPanel implements TouchEnabled {
   private float SC_MIN = 12;
   private float SC_MAX = 2041;
   public Location ILLINOIS = new Location(40.633125f, -89.398528f);
+  public Location ILLINOIS_2 = new Location(42.633125f, -89.398528f);
+  private Tooltip tooltip;
 
   public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
@@ -75,6 +79,9 @@ public class VizMap extends VizPanel implements TouchEnabled {
       }
     });
 
+    addLocation(new LocationWrapper(1, ILLINOIS));
+    addLocation(new LocationWrapper(2, ILLINOIS_2));
+
   }
 
   @Override
@@ -90,6 +97,10 @@ public class VizMap extends VizPanel implements TouchEnabled {
     stroke(MyColorEnum.RED);
     strokeWeight(10);
     rect(mapOffset.x, mapOffset.y, mapSize.x, mapSize.y);
+
+    if (tooltip != null && tooltip.isVisible()) {
+      tooltip.draw();
+    }
 
     popStyle();
     return false;
@@ -194,15 +205,15 @@ public class VizMap extends VizPanel implements TouchEnabled {
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
     if (down) {
-
-      log("sc: " + map.sc);
-
       for (AbstractMarker marker : markers) {
         if (marker.containsPoint(x, y)) {
           LocationWrapper wrapper = locationsList.get(marker.getId());
           Location location = wrapper.getLocation();
           log("You have touched location located at lat: " + location.lat + " and long: "
               + location.lon);
+          tooltip = new Tooltip(marker.getX0() - TTIP_W / 2 + MARKER_WIDTH / 2, marker.getY0()
+              - TTIP_H, TTIP_W, TTIP_H, this, marker.getId());
+          tooltip.setup(wrapper);
         }
       }
 
