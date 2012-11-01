@@ -1,9 +1,6 @@
 package com.anotherbrick.inthewall;
 
-import static com.anotherbrick.inthewall.Config.MyColorEnum.DARK_GRAY;
-import static com.anotherbrick.inthewall.Config.MyColorEnum.LIGHT_GRAY;
-import static com.anotherbrick.inthewall.Config.MyColorEnum.MEDIUM_GRAY;
-import static com.anotherbrick.inthewall.Config.MyColorEnum.WHITE;
+import static com.anotherbrick.inthewall.Config.MyColorEnum.*;
 
 import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
@@ -23,20 +20,18 @@ import com.modestmaps.providers.Microsoft;
 
 public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
-    // touch an event location on the map and get more data about it
-    // be able to cluster the data on the map and graph (i.e. if I zoom our or
-    // into the map or graph the data should form into clusters or clusters
-    // should
-    // break apart into individual instances)
-
+    private static final float CHANGE_MODE_X0 = 213;
     private static final int CHANGE_MODE_ROWS = 3;
+
     private static final float CHANGE_MODE_TOGGLE_X0 = 213;
-    private static final float CHANGE_MODE_TOGGLE_Y0 = 370;
     private static final float CHANGE_MODE_TOGGLE_H = 10;
+    private static final float CHANGE_MODE_TOGGLE_Y0 = 370;
+
     private static final float CHANGE_MODE_W = 130;
     private static final float CHANGE_MODE_H = 80;
+    private static final float TTIP_H = 200;
+    private static final float TTIP_W = 150;
 
-    private static final float CHANGE_MODE_X0 = 213;
     private static final float CHANGE_MODE_Y0 = CHANGE_MODE_TOGGLE_Y0
 	    - CHANGE_MODE_H;
 
@@ -60,21 +55,13 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     private VizList changeMapMode;
     private VizButton changeModeToggle;
+    private Tooltip tooltip;
 
     private Integer selectedStateId = 17;
 
     public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
 	super(x0, y0, width, height, parent);
 	this.parent = parent;
-	changeModeToggle = new VizButton(CHANGE_MODE_TOGGLE_X0,
-		CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H,
-		this);
-	changeModeToggle.setText("Map Mode");
-	changeModeToggle.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
-	changeModeToggle.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255,
-		255, 14);
-	changeModeToggle.setRoundedCornerd(5, 5, 5, 5);
-
 	changeMapMode = new VizList(CHANGE_MODE_X0, CHANGE_MODE_Y0,
 		CHANGE_MODE_W, CHANGE_MODE_H, this);
 	ArrayList<MapStyles> mapModes = new ArrayList<MapStyles>();
@@ -85,6 +72,15 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 		false, SelectionMode.SINGLE);
 	changeMapMode.setVisible(false);
 	addTouchSubscriber(changeMapMode);
+	changeModeToggle = new VizButton(CHANGE_MODE_TOGGLE_X0,
+		CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H,
+		this);
+	changeModeToggle.setText("Map Mode");
+	changeModeToggle.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
+	changeModeToggle.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255,
+		255, 14);
+	changeModeToggle.setRoundedCornerd(5, 5, 5, 5);
+
 	NotificationCenter.getInstance().registerToEvent("year-changed", this);
 
     }
@@ -136,6 +132,11 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	changeMapMode.draw();
 	changeModeToggle.setToRedraw();
 	changeModeToggle.draw();
+
+	if (tooltip != null && tooltip.isVisible()) {
+	    tooltip.draw();
+	}
+
 	popStyle();
 	return false;
     }
@@ -243,6 +244,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     @Override
     public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
+
 	if (down && changeModeToggle.containsPoint(x, y)) {
 	    if (changeMapMode.isVisible()) {
 		changeMapStyle((MapStyles) changeMapMode.getSelected().get(0));
@@ -250,9 +252,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    changeMapMode.toggleVisible();
 	    return false;
 	}
-	if (down && changeMapMode.containsPoint(x, y)) {
-
-	    log("sc: " + map.sc);
+	if (down) {
+	    if (tooltip != null && tooltip.isVisible()) {
+		tooltip.setVisible(false);
+	    }
 
 	    for (AbstractMarker marker : markers) {
 		if (marker.containsPoint(x, y)) {
@@ -260,6 +263,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 		    Location location = wrapper.getLocation();
 		    log("You have touched location located at lat: "
 			    + location.lat + " and long: " + location.lon);
+		    tooltip = new Tooltip(marker.getX0() - TTIP_W / 2
+			    + MARKER_WIDTH / 2, marker.getY0() - TTIP_H,
+			    TTIP_W, TTIP_H, this, marker.getId());
+		    tooltip.setup(wrapper);
 		}
 	    }
 
