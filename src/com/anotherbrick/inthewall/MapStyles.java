@@ -14,4 +14,5 @@ public enum MapStyles {
     public String toString() {
 	return label;
     }
+
 }
