@@ -27,11 +27,19 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
   public static final float THIRD_ROW_Y0 = 140;
   public static final float FOURTH_ROW_Y0 = 170;
   private static final float FIFTH_ROW_Y0 = 200;
+  private static final float APPLY_X0 = 233;
+  private static final float APPLY_Y0 = 268;
+  private static final float APPLY_W = 41;
+  private static final float APPLY_H = 31;
+  private static final float REMOVE_X0 = 240;
+  private static final float REMOVE_Y0 = 306;
+  private static final float REMOVE_W = 30;
+  private static final float REMOVE_Y = 30;
 
   private VizList weatherList, alcoholList, speedList, vehicleList, ageList, dayList, monthList,
       hourList, sexList, lcList;
   private VizButton weatherButton, alcoholButton, speedButton, vehicleButton, ageButton, dayButton,
-      monthButton, hourButton, sexButton, lcButton;
+      monthButton, hourButton, sexButton, lcButton, applyButton, removeButton;
 
   private HashMap<VizButton, VizList> listsAndButtons;
 
@@ -58,6 +66,15 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
   @Override
   public void setup() {
+
+    // Apply Button
+    applyButton = new VizButton(APPLY_X0, APPLY_Y0, APPLY_W, APPLY_H, this);
+    applyButton.setShape("tick.svg");
+
+    // Remove Button
+    removeButton = new VizButton(REMOVE_X0, REMOVE_Y0, REMOVE_W, REMOVE_Y, this);
+    removeButton.setShape("cross.svg");
+
     listsAndButtons = new HashMap<VizButton, VizList>();
 
     // Days of the week
@@ -173,6 +190,9 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
       list.draw();
       list.setToRedraw();
     }
+
+    applyButton.draw();
+    removeButton.draw();
 
     popStyle();
     return true;

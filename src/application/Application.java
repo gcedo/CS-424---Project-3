@@ -3,6 +3,7 @@ package application;
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.anotherbrick.inthewall.FilterToolbox;
 import com.anotherbrick.inthewall.TouchEnabled;
+import com.anotherbrick.inthewall.VizGraph;
 import com.anotherbrick.inthewall.VizMap;
 import com.anotherbrick.inthewall.VizPanel;
 import com.anotherbrick.inthewall.VizTimeline;
@@ -15,11 +16,11 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float MAP_X0 = 0;
   private final float MAP_Y0 = 0;
 
-  private VizTimeline timeline;
-  private final float TIMELINE_WIDTH = 476;
-  private final float TIMELINE_HEIGHT = 270;
-  private final float TIMELINE_X0 = 1338;
-  private final float TIMELINE_Y0 = 260;
+  private VizGraph graph;
+  private final float GRAPH_WIDTH = 476;
+  private final float GRAPH_HEIGHT = 270;
+  private final float GRAPH_X0 = 861;
+  private final float GRAPH_Y0 = 21;
 
   private FilterToolbox ft;
   private final float FT_WIDTH = 281;
@@ -47,6 +48,9 @@ public class Application extends VizPanel implements TouchEnabled {
     ft = new FilterToolbox(FT_X0, FT_Y0, FT_WIDTH, FT_HEIGHT, this);
     ft.setup();
     addTouchSubscriber(ft);
+
+    graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
+    graph.setup();
   }
 
   @Override
@@ -58,6 +62,7 @@ public class Application extends VizPanel implements TouchEnabled {
     coverExceedingTiles();
 
     ft.draw();
+    graph.draw();
 
     popStyle();
     return false;

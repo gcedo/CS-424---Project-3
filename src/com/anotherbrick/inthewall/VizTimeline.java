@@ -4,19 +4,19 @@ import com.anotherbrick.inthewall.Config.MyColorEnum;
 
 public class VizTimeline extends VizPanel implements TouchEnabled {
 
-  private static final float GRAPH_HEIGHT = 0;
-  private static final float GRAPH_WIDTH = 0;
+  private static final float GRAPH_HEIGHT = 240;
+  private static final float GRAPH_WIDTH = 440;
   private static final float GRAPH_Y = 0;
   private static final float GRAPH_X = 0;
   private static final float TABLE_HEIGHT = 0;
   private static final float TABLE_WIDTH = 0;
   private static final float TABLE_Y = 0;
   private static final float TABLE_X = 0;
-  private static final float SLIDER_HEIGHT = 0;
-  private static final float SLIDER_WIDTH = 0;
-  private static final float SLIDER_Y = 0;
+  private static final float SLIDER_HEIGHT = 25;
+  private static final float SLIDER_WIDTH = 440;
+  private static final float SLIDER_Y = 260;
   private static final float SLIDER_X = 0;
-  private static final float TIMELINE_WIDTH = 0;
+  private static final float TIMELINE_WIDTH = 440;
   private VizGraph graph;
   private VizTable table;
   private VizTimeSlider timeSlider;
@@ -68,7 +68,8 @@ public class VizTimeline extends VizPanel implements TouchEnabled {
 
   @Override
   public boolean draw() {
-    if (!startDraw()) return false;
+    if (!startDraw())
+      return false;
     boolean willNeedToBeRedrawn = false;
 
     graph.setToRedraw();
