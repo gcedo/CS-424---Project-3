@@ -19,12 +19,9 @@ public class FilterWrapper {
     }
 
     public void addFilter(String key, String value) {
-	if (conditions.get(key) == null) {
-	    ArrayList<String> a = new ArrayList<String>();
-	    a.add(value);
-	    conditions.put(key, a);
-	} else
-	    conditions.get(key).add(value);
+	if (conditions.get(key) == null)
+	    conditions.put(key, new ArrayList<String>());
+	conditions.get(key).add(value);
     }
 
     public void removeFilter(String key) {

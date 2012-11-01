@@ -13,7 +13,7 @@ import processing.core.PVector;
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.anotherbrick.inthewall.Model.Datas;
 
-public class VizGraph extends VizPanel implements TouchEnabled {
+public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber {
 
     public int TICK_COUNT = 10;
     public int CLUSTER_SIZE = 10;
@@ -66,7 +66,9 @@ public class VizGraph extends VizPanel implements TouchEnabled {
     }
 
     public void setup() {
+	NotificationCenter.getInstance().registerToEvent("update-graph", this);
 	updateBounds();
+
     }
 
     private void addClusteredPlot(PlotData plot, int index) {
@@ -221,6 +223,16 @@ public class VizGraph extends VizPanel implements TouchEnabled {
 	popStyle();
 	// return endDraw(yearSlider.moving);
 	return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void eventReceived(String eventName, Object data) {
+	if (eventName.equals("update-graph")) {
+	    PlotData pdata = new PlotData((ArrayList<PVector>) data, palette[0]);
+	    addPlot(pdata, 0);
+	}
+
     }
 
     private void drawPlot(PlotData plot, ArrayList<PlotData> plots) {
