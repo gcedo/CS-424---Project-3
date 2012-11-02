@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import markers.AbstractMarker;
+
 import processing.core.PVector;
 import application.DBUtil;
 

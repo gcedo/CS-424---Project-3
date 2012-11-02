@@ -1,5 +1,7 @@
 package com.anotherbrick.inthewall;
 
+import markers.AbstractMarker;
+
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 
 public class DefaultMarker extends AbstractMarker {

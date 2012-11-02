@@ -9,5 +9,5 @@
 "enable_tag_cloud" : false,
 "enable_draw_mouse_position" : false,
 "initialize_visualization" : true,
-"draw_touch" : false
+"draw_touch" : true
 }

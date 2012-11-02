@@ -1,8 +1,13 @@
-package com.anotherbrick.inthewall;
+package markers;
+
+import com.anotherbrick.inthewall.VizPanel;
+
+import processing.core.PShape;
 
 public abstract class AbstractMarker extends VizPanel {
 
   private Integer id;
+  protected PShape shape;
 
   public AbstractMarker(float x0, float y0, float width, float height, VizPanel parent, Integer id) {
     super(x0, y0, width, height, parent);
