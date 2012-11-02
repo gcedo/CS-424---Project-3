@@ -299,11 +299,11 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     fill(MyColorEnum.WHITE);
     stroke(MyColorEnum.WHITE);
     strokeWeight((float) 1);
-    textAlign(PApplet.CENTER, PApplet.CENTER);
+    textAlign(PApplet.CENTER, PApplet.TOP);
     textSize(12);
     for (int i = (int) xStart; i <= xStop; i++) {
       int x = (int) PApplet.map(i, xStart, xStop, PLOT_PADDING_LEFT, getWidth());
-      text(Integer.toString(i), x, getHeight());
+      text(Integer.toString(i), x, getHeight() - PLOT_PADDING_BOTTOM);
     }
     popStyle();
 
