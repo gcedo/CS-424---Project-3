@@ -16,6 +16,7 @@ import com.mysql.jdbc.Connection;
 public class DBUtil {
     private static DBUtil instance = null;
     private Connection con = null;
+    private static final boolean DEBUG = true;
 
     public static DBUtil getInstance() {
 	if (instance == null)
@@ -109,9 +110,12 @@ public class DBUtil {
 		if (year < minYear)
 		    minYear = year;
 		ret.add(new PVector(year, r.getInt(2)));
+		if (DEBUG)
+		    System.out.println(year + " -> " + r.getInt(2));
 	    }
-	    System.out.println("year range for the query: " + minYear + " - "
-		    + maxYear);
+	    if (DEBUG)
+		System.out.println("year range for the query: " + minYear
+			+ " - " + maxYear);
 	} catch (Exception e) {
 	    e.printStackTrace();
 
@@ -129,12 +133,14 @@ public class DBUtil {
 		for (String s : f) {
 		    ret += key + " = '" + s + "' OR ";
 		}
-		ret += "FALSE ) AND (";
+		ret += "FALSE ) AND ";
 	    }
-	    ret += "TRUE ) ";
+	    ret += "TRUE ";
 	}
 
 	ret += "GROUP BY year ORDER BY year";
+	if (DEBUG)
+	    System.out.println(ret);
 	return ret;
     }
 
