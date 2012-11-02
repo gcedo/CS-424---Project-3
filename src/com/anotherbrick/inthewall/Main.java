@@ -51,9 +51,9 @@ public class Main extends PApplet {
   }
 
   public static void main(String[] args) {
-      PApplet.main(new String[] {"com.anotherbrick.inthewall.Main"});
+    PApplet.main(new String[] { "com.anotherbrick.inthewall.Main" });
   }
-  
+
   @Override
   public void setup() {
     setupConfig();
@@ -135,8 +135,8 @@ public class Main extends PApplet {
 
   @Override
   public void mousePressed() {
-    int xPosScaled = (int) (mouseX / c.multiply);
-    int yPosScaled = (int) (mouseY / c.multiply);
+    int xPosScaled = (int) (mouseX);
+    int yPosScaled = (int) (mouseY);
     if ((keyPressed == false)) {
       application.touch(xPosScaled, yPosScaled, true, TouchTypeEnum.ONE_FINGER);
       System.out.println("--- 1 Finger touch DOWN (mouse)");
@@ -154,8 +154,8 @@ public class Main extends PApplet {
 
   @Override
   public void mouseReleased() {
-    int xPosScaled = (int) (mouseX / c.multiply);
-    int yPosScaled = (int) (mouseY / c.multiply);
+    int xPosScaled = (int) (mouseX);
+    int yPosScaled = (int) (mouseY);
     if ((keyPressed == false)) {
       application.touch(xPosScaled, yPosScaled, false, TouchTypeEnum.ONE_FINGER);
       System.out.println("--- 1 Finger touch UP (mouse)");
@@ -168,8 +168,6 @@ public class Main extends PApplet {
 
   public void touchDown(int ID, float xPos, float yPos, float xWidth, float yWidth) {
     touchIds.add(ID);
-    int xPosScaled = (int) (xPos / c.multiply);
-    int yPosScaled = (int) (yPos / c.multiply);
     System.out.println("--- touchDown " + ID);
     if (c.drawTouch) {
       pushStyle();
@@ -178,7 +176,8 @@ public class Main extends PApplet {
       ellipse(xPos, yPos, xWidth * 2, yWidth * 2);
       popStyle();
     }
-    application.touch(xPosScaled, yPosScaled, true, TouchTypeEnum.ONE_FINGER);
+
+    application.touch(xPos, yPos, true, TouchTypeEnum.ONE_FINGER);
   }
 
   public void touchMove(int ID, float xPos, float yPos, float xWidth, float yWidth) {
@@ -194,8 +193,6 @@ public class Main extends PApplet {
   }
 
   public void touchUp(int ID, float xPos, float yPos, float xWidth, float yWidth) {
-    int xPosScaled = (int) (xPos / c.multiply);
-    int yPosScaled = (int) (yPos / c.multiply);
     Iterator<Integer> i = touchIds.iterator();
     while (i.hasNext()) {
       if (i.next().equals(ID)) {
@@ -209,6 +206,6 @@ public class Main extends PApplet {
       ellipse(xPos, yPos, xWidth * 2, yWidth * 2);
       popStyle();
     }
-    application.touch(xPosScaled, yPosScaled, false, TouchTypeEnum.ONE_FINGER);
+    application.touch(xPos, yPos, false, TouchTypeEnum.ONE_FINGER);
   }
 }

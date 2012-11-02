@@ -299,15 +299,11 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     fill(MyColorEnum.WHITE);
     stroke(MyColorEnum.WHITE);
     strokeWeight((float) 1);
-    textAlign(PApplet.CENTER, PApplet.BASELINE);
+    textAlign(PApplet.CENTER, PApplet.CENTER);
     textSize(12);
-    for (int i = getOverallXMin(plots).intValue(); i < getOverallXMax(plots).intValue(); i++) {
-      if (i % 10 == 0) {
-        int x = (int) PApplet.map(i, getOverallXMin(plots), getOverallXMax(plots),
-            PLOT_PADDING_LEFT, getWidth());
-        text(Integer.toString(i), x, getHeight());
-      }
-
+    for (int i = (int) xStart; i <= xStop; i++) {
+      int x = (int) PApplet.map(i, xStart, xStop, PLOT_PADDING_LEFT, getWidth());
+      text(Integer.toString(i), x, getHeight());
     }
     popStyle();
 
@@ -315,13 +311,9 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   private void drawYAxisLabels() {
     int range;
-
     range = (int) getTicksRange(TICK_COUNT, plots);
-    if (range == 0) {
-      range = 1;
-    }
 
-    log("Range = " + range);
+    range = range == 0 ? 1 : range;
 
     pushStyle();
     stroke(MyColorEnum.WHITE);
@@ -332,7 +324,6 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       int y = (int) PApplet.map(i, 0, getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM, 0);
 
       text(Integer.toString(i), PLOT_PADDING_LEFT, y);
-      log("Drawing tick #" + i);
 
       line(PLOT_PADDING_LEFT, y, getWidth(), y);
     }
