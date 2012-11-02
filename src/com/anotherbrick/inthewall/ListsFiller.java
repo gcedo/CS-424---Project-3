@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public class ListsFiller {
     public static final String DAY_OF_WEEK = "dayofweek";
     public static final String WEATHER_CONDITION = "weather";
-    public static final String MONTHS = "months";
+    public static final String MONTHS = "month";
     public static final String ALCOHOL = "alcohol";
-    public static final String SPEED = "speed";
-    public static final String VEHICLE = "vehicle";
+    public static final String SPEED = "avgspeed";
+    public static final String VEHICLE = "vehicletype";
     public static final String AGE = "age";
     public static final String HOUR = "hour";
     public static final String SEX = "sex";
@@ -87,7 +87,7 @@ public class ListsFiller {
 
     public static ArrayList<String> getAge() {
 	ArrayList<String> age = new ArrayList<String>();
-	for (int i = 1; i <= 108; i++) {
+	for (int i = 1; i <= 110; i += 10) {
 	    age.add(Integer.toString(i));
 	}
 	return age;
@@ -103,27 +103,20 @@ public class ListsFiller {
 
     public static ArrayList<String> getVehicles() {
 	ArrayList<String> vehicles = new ArrayList<String>();
-	vehicles.add("automobile");
-	vehicles.add("utility vehicle");
-	vehicles.add("van");
-	vehicles.add("pick-up and light truck");
-	vehicles.add("unknown light vehicle");
-	vehicles.add("bus");
-	vehicles.add("truck");
-	vehicles.add("motorcycle");
+	vehicles.add("Automobile");
+	vehicles.add("Working Vehicle");
+	vehicles.add("Motorcycle");
+	vehicles.add("Other");
 
 	return vehicles;
     }
 
     public static ArrayList<String> getSpeeds() {
 	ArrayList<String> speeds = new ArrayList<String>();
-	for (int i = 0; i <= 151; i++) {
+	for (int i = 0; i <= 150; i += 10) {
 	    speeds.add(Integer.toString(i) + " MPH");
 	}
 
-	speeds.add("Greater than 151 MPH");
-	speeds.add("Not Reported");
-	speeds.add("Unknown");
 	return speeds;
     }
 
