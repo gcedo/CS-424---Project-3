@@ -11,7 +11,6 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 import com.anotherbrick.inthewall.Config.MyColorEnum;
-import com.anotherbrick.inthewall.Model.Datas;
 
 public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber {
 
@@ -188,7 +187,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     rect(getX0(), getY0(), getWidth(), getHeight());
     textSize(20);
     drawBackground();
-    drawAxisLabels();
+
     ArrayList<PlotData> drawPlots = new ArrayList<PlotData>();
     if (!clustered) {
       for (PlotData p : getPlots()) {
@@ -219,7 +218,8 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     updateYearSliderPosition();
     yearSlider.draw();
     popStyle();
-    // return endDraw(yearSlider.moving);
+
+    drawAxisLabels();
     return false;
   }
 
@@ -295,39 +295,44 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
   }
 
   private void drawXAxisLabels() {
+    pushStyle();
+    fill(MyColorEnum.WHITE);
+    stroke(MyColorEnum.WHITE);
+    strokeWeight((float) 1);
+    textAlign(PApplet.CENTER, PApplet.BASELINE);
+    textSize(12);
+    for (int i = getOverallXMin(plots).intValue(); i < getOverallXMax(plots).intValue(); i++) {
+      if (i % 10 == 0) {
+        int x = (int) PApplet.map(i, getOverallXMin(plots), getOverallXMax(plots),
+            PLOT_PADDING_LEFT, getWidth());
+        text(Integer.toString(i), x, getHeight());
+      }
+
+    }
+    popStyle();
 
   }
 
   private void drawYAxisLabels() {
-    ArrayList<PlotData> plots = new ArrayList<PlotData>();
     int range;
 
-    if (!clustered) {
-      plots = this.plots;
-    } else {
-      plots = this.clusteredPlots;
+    range = (int) getTicksRange(TICK_COUNT, plots);
+    if (range == 0) {
+      range = 1;
     }
 
-    if (m.currentDataDisplayed == Datas.AVERAGE_RATING || getOverallYMax(plots) <= 10) {
-      range = 1;
-    } else {
-      range = (int) getTicksRange(TICK_COUNT, plots);
-    }
+    log("Range = " + range);
+
     pushStyle();
     stroke(MyColorEnum.WHITE);
     strokeWeight((float) 0.5);
     fill(MyColorEnum.WHITE);
     textAlign(PApplet.RIGHT, PApplet.CENTER);
-    for (int i = getOverallYMin(plots).intValue(); i < getOverallYMax(plots); i += range) {
-      int y = (int) PApplet.map(i, getOverallYMin(plots), getOverallYMax(plots), getHeight()
-          - PLOT_PADDING_BOTTOM, 0);
+    for (int i = 0; i < getOverallYMax(plots); i += range) {
+      int y = (int) PApplet.map(i, 0, getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM, 0);
 
-      if (m.currentDataDisplayed == Datas.AVERAGE_BUDGET
-          || m.currentDataDisplayed == Datas.AVERAGE_VOTES) {
-        text(formatMoneyValue(i), PLOT_PADDING_LEFT, y);
-      } else {
-        text(Integer.toString(i), PLOT_PADDING_LEFT, y);
-      }
+      text(Integer.toString(i), PLOT_PADDING_LEFT, y);
+      log("Drawing tick #" + i);
 
       line(PLOT_PADDING_LEFT, y, getWidth(), y);
     }
@@ -376,7 +381,6 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       year = (float) Math.floor(year);
       year *= 10;
       if (year >= xStart) {
-        // yearFocus.setYear((int) year);
       } else {
         year = xStart;
       }
@@ -405,7 +409,6 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     @Override
     public boolean draw() {
       pushStyle();
-      background(MyColorEnum.LIGHT_BLUE);
       shape(s, 0, 0, getWidth(), getHeight());
       popStyle();
       return false;
