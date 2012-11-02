@@ -133,9 +133,9 @@ public class DBUtil {
 		for (String s : f) {
 		    ret += key + " = '" + s + "' OR ";
 		}
-		ret += "FALSE ) AND (";
+		ret += "FALSE ) AND ";
 	    }
-	    ret += "TRUE ) ";
+	    ret += "TRUE ";
 	}
 
 	ret += "GROUP BY year ORDER BY year";
