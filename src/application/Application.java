@@ -62,10 +62,10 @@ public class Application extends VizPanel implements TouchEnabled {
 
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();
+    addTouchSubscriber(graph);
 
     timeslider = new VizTimeSlider(SLIDER_X0, SLIDER_Y0, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeslider.setup();
-    addDummyPlots();
     addTouchSubscriber(timeslider);
   }
 
