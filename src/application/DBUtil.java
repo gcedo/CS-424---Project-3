@@ -9,6 +9,7 @@ import java.util.HashMap;
 
 import processing.core.PVector;
 
+import com.anotherbrick.inthewall.CrashDetails;
 import com.anotherbrick.inthewall.LocationWrapper;
 import com.modestmaps.geo.Location;
 import com.mysql.jdbc.Connection;
@@ -59,17 +60,39 @@ public class DBUtil {
 
     }
 
+    public CrashDetails getCrashDetailsById(Integer crashId) {
+	try {
+	    Statement stm = con.createStatement();
+	    ResultSet r = stm
+		    .executeQuery("SELECT id, weather, lightcondition, sex, vehicletype, month, dayofweek, daynum, year, time, speedlimit, numfatal, age, avgspeed, maxspeed FROM crashes WHERE id = "
+			    + crashId + " LIMIT 1");
+	    if (r.next()) {
+		return new CrashDetails(r.getInt(1), r.getString(2),
+			r.getString(3), r.getString(4), r.getString(5),
+			r.getString(6), r.getString(7), r.getString(8),
+			r.getString(9), r.getString(10), r.getString(11),
+			r.getString(12), r.getString(13), r.getString(14),
+			r.getString(15));
+	    }
+	    return null;
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	    return null;
+	}
+    }
+
     public ArrayList<LocationWrapper> getPointsByState(Integer stateId,
 	    Integer year) {
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT id, latitude, longitude FROM crashes WHERE stateid = "
+		    .executeQuery("SELECT id, latitude, longitude, weather, light, sex FROM crashes WHERE stateid = "
 			    + stateId + " AND year = " + year);
 	    while (r.next()) {
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
-			.getFloat(2), r.getFloat(3)));
+			.getFloat(2), r.getFloat(3), r.getString(4), r
+			.getString(5), r.getString(6)));
 	    }
 	    return ret;
 	} catch (SQLException e) {

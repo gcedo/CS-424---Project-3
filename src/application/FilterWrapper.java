@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.anotherbrick.inthewall.CrashDetails;
+
 public class FilterWrapper {
     private String keywordType;
     private HashMap<String, ArrayList<String>> conditions;

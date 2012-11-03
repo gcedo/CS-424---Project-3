@@ -30,18 +30,15 @@ public class ListsFiller {
 
     public static ArrayList<String> getWeatherConditions() {
 	ArrayList<String> wc = new ArrayList<String>();
-	wc.add("Blowing Sand, Soil, Dirt");
-	wc.add("Blowing Snow");
-	wc.add("Clear");
-	wc.add("Clear/Cloudy (No Adverse Conditions)");
-	wc.add("Cloudy");
-	wc.add("Fog");
-	wc.add("Fog, Smog, Smoke");
+
+	wc.add("No adverse conditions");
 	wc.add("Rain");
-	wc.add("Rain and Fog");
+	wc.add("Hail");
+	wc.add("Snow");
+	wc.add("Fog");
 	wc.add("Severe Crosswinds");
-	wc.add("Sleet (Hail)");
-	wc.add("Sleet and Fog");
+	wc.add("Smog, Smoke, Blowing Sand or Dust");
+	wc.add("Sleet");
 
 	return wc;
     }
@@ -69,9 +66,9 @@ public class ListsFiller {
 	lc.add("Daylight");
 	lc.add("Dark - Not Lighted");
 	lc.add("Dark - Lighted");
+	lc.add("Dark - Unknown Lighting");
 	lc.add("Dawn");
 	lc.add("Dusk");
-	lc.add("Dark - Unknown Lighting");
 
 	return lc;
     }
