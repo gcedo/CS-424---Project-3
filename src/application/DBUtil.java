@@ -87,7 +87,7 @@ public class DBUtil {
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT id, latitude, longitude, weather, light, sex FROM crashes WHERE stateid = "
+		    .executeQuery("SELECT id, latitude, longitude, weather, lightcondition, sex FROM crashes WHERE stateid = "
 			    + stateId + " AND year = " + year);
 	    while (r.next()) {
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
@@ -148,8 +148,9 @@ public class DBUtil {
 
     private String buildQueryString(FilterWrapper fw) {
 	HashMap<String, ArrayList<String>> filters = fw.getConditions();
-	String ret = "SELECT year, count(*) FROM crashes WHERE ";
+	String ret = "SELECT year, count(*) FROM crashes ";
 	if (filters.size() > 0) {
+	    ret += "WHERE ";
 	    for (String key : filters.keySet()) {
 		ret += "( ";
 		ArrayList<String> f = filters.get(key);

@@ -154,25 +154,29 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     }
 
     private void drawLocationMarkers() {
+	for (AbstractMarker a : markers)
+	    a.draw();
+    }
+
+    private void updateLocationMarkers() {
 	markers.clear();
 	for (Map.Entry<Integer, LocationWrapper> pair : locationsList
 		.entrySet()) {
 	    LocationWrapper wrapper = pair.getValue();
 	    Point2f point = map.locationPoint(wrapper.getLocation());
 	    Integer id = pair.getKey();
-	    MarkerType markerType = wrapper.getMarkerType();
-	    AbstractMarker marker = null;
-
-	    switch (markerType) {
-	    case DEFAULT_MARKER:
-		marker = new DefaultMarker(point.x, point.y, MARKER_WIDTH,
-			MARKER_HEIGHT, this, id);
-		break;
-	    default:
-		break;
-	    }
+	    AbstractMarker marker = wrapper.getCorrespondingMarker(point.x,
+		    point.y, MARKER_WIDTH, MARKER_HEIGHT, this, id);
+	    marker.setup();
 	    markers.add(marker);
-	    marker.draw();
+	}
+    }
+
+    private void updateLocationMarkersPosition() {
+	for (AbstractMarker a : markers) {
+	    LocationWrapper lw = locationsList.get(a.getId());
+	    Point2f point = map.locationPoint(lw.getLocation());
+	    a.modifyPosition(point.x, point.y);
 	}
     }
 
@@ -235,13 +239,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    // Update touch list
 	    VizTouch t = new VizTouch(id, xPos, yPos, touchWidth, touchWidth);
 	    touchList.put(id, t);
-
+	    updateLocationMarkersPosition();
 	}
     }
 
     public void addLocations(ArrayList<LocationWrapper> locations) {
 	for (LocationWrapper l : locations)
 	    addLocation(l);
+	updateLocationMarkers();
     }
 
     @Override
@@ -293,6 +298,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    touchList.remove(id);
 	    mapTouched = false;
 	}
+	updateMapZoomAndPosition();
 	propagateTouch(x, y, down, touchType);
 	return false;
     }
@@ -312,6 +318,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	map.sc = costrain((float) map.sc, SC_MAX, SC_MIN);
 	map.tx += mx / map.sc;
 	map.ty += my / map.sc;
+	updateLocationMarkersPosition();
     }
 
     private float costrain(float value, float maxValue, float minValue) {

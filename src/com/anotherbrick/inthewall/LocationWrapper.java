@@ -1,5 +1,14 @@
 package com.anotherbrick.inthewall;
 
+import markers.AbstractMarker;
+import markers.DawnMarker;
+import markers.FemaleMarker;
+import markers.FoggyMarker;
+import markers.MaleMarker;
+import markers.NightMarker;
+import markers.QuestionMarker;
+import markers.SnowyMarker;
+import markers.SunnyMarker;
 import application.DBUtil;
 
 import com.modestmaps.geo.Location;
@@ -98,4 +107,43 @@ public class LocationWrapper {
 	return DBUtil.getInstance().getCrashDetailsById(id);
     }
 
+    AbstractMarker getCorrespondingMarker(float x, float y, float width,
+	    float height, VizPanel parent, Integer id) {
+
+	switch (markerType) {
+	case DEFAULT_MARKER:
+	    return new DefaultMarker(x, y, width, height, parent, id);
+	case GENDER:
+	    // SHITTY JAVA 1.6 DOESN'T ALLOW SWITCHES OVER STRINGS
+	    if (getGender().indexOf("Female") != -1)
+		return new FemaleMarker(x, y, width, height, parent, id);
+	    if (getGender().indexOf("Male") != -1)
+		return new MaleMarker(x, y, width, height, parent, id);
+	    return new QuestionMarker(x, y, width, height, parent, id);
+	case LIGHT:
+	    // SHITTY JAVA 1.6 DOESN'T ALLOW SWITCHES OVER STRINGS
+	    if (getLight().indexOf("Dawn") != -1)
+		return new DawnMarker(x, y, width, height, parent, id);
+	    if (getLight().indexOf("Dark") != -1)
+		return new NightMarker(x, y, width, height, parent, id);
+	    if (getLight().indexOf("Daylight") != -1)
+		return new SunnyMarker(x, y, width, height, parent, id);
+	    return new QuestionMarker(x, y, width, height, parent, id);
+	case WEATHER:
+	    // SHITTY JAVA 1.6 DOESN'T ALLOW SWITCHES OVER STRINGS
+	    if (getWeather().indexOf("Snow") != -1)
+		return new SnowyMarker(x, y, width, height, parent, id);
+	    if (getWeather().indexOf("Rain") != -1
+		    || getLight().indexOf("Hail") != -1)
+		return new QuestionMarker(x, y, width, height, parent, id);
+	    if (getWeather().indexOf("No adverse") != -1)
+		return new SunnyMarker(x, y, width, height, parent, id);
+	    if (getWeather().indexOf("Fog") != -1
+		    || getLight().indexOf("Smog") != -1)
+		return new FoggyMarker(x, y, width, height, parent, id);
+	    return new QuestionMarker(x, y, width, height, parent, id);
+	default:
+	    return null;
+	}
+    }
 }
