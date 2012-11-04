@@ -218,7 +218,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 	    drawPlot(cluster, drawPlots);
 	}
 
-	updateYearSliderPosition();
+	forceYearSliderUpdate();
 	yearSlider.draw();
 	popStyle();
 
@@ -341,6 +341,10 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 	popStyle();
     }
 
+    public void setYearSliderMoving(boolean moving) {
+	yearSlider.moving = moving;
+    }
+
     @Override
     public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
 	if (down) {
@@ -356,42 +360,26 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 	return false;
     }
 
-    public void updateYearSliderPosition() {
-	if (!getPlots().isEmpty() && yearSlider.moving) {
+    private boolean wasMoving = false;
+
+    public void forceYearSliderUpdate() {
+	if (yearSlider.isMoving())
 	    yearSlider.modifyPositionWithAbsoluteValue(
 		    costrain(m.touchX, getX0Absolute() + getWidth()
 			    - HALF_SLIDER, PLOT_PADDING_LEFT - HALF_SLIDER
 			    + getX0Absolute()), getY0Absolute());
-	    if (!yearSlider.moving)
-		setYear(yearSlider.getX0());
-	}
-    }
-
-    public void forceYearSliderUpdate() {
-	yearSlider.modifyPositionWithAbsoluteValue(
-		costrain(m.touchX, getX0Absolute() + getWidth() - HALF_SLIDER,
-			PLOT_PADDING_LEFT - HALF_SLIDER + getX0Absolute()),
-		getY0Absolute());
-	if (!yearSlider.moving)
+	if (wasMoving && !yearSlider.moving)
 	    setYear(yearSlider.getX0());
+	wasMoving = yearSlider.moving;
     }
 
     private void setYear(float position) {
 	float year = PApplet.map(position + HALF_SLIDER, PLOT_PADDING_LEFT,
 		getWidth(), xStart, xStop);
-	if (!clustered) {
-	    NotificationCenter.getInstance().notifyEvent("year-changed",
-		    new Integer((int) year));
-	} else {
-	    year /= 10;
-	    year = (float) Math.floor(year);
-	    year *= 10;
-	    if (year >= xStart) {
-	    } else {
-		year = xStart;
-	    }
-	}
-	setToRedraw();
+
+	NotificationCenter.getInstance().notifyEvent("year-changed",
+		new Integer((int) year));
+
     }
 
     private float costrain(float value, float maxValue, float minValue) {

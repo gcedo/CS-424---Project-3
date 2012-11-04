@@ -200,6 +200,9 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled,
 		rightHandle.moving = false;
 		zoomArea.setMoving(false);
 		setModal(false);
+		graph.setYearSliderMoving(true);
+		graph.forceYearSliderUpdate();
+		graph.setYearSliderMoving(false);
 	    }
 	}
 	return false;

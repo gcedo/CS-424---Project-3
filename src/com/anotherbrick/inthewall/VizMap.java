@@ -37,6 +37,8 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     private static final float CHANGE_MODE_Y0 = CHANGE_MODE_TOGGLE_Y0
 	    - CHANGE_MODE_H;
 
+    private MarkerType markersType = MarkerType.GENDER;
+
     private InteractiveMap map;
     private PVector mapOffset;
     private PVector mapSize;
@@ -53,10 +55,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     public float MARKER_HEIGHT = 10;
     private float SC_MIN = 12;
     private float SC_MAX = 2041;
-    private float TX_MIN = (float)-80.1;
-    private float TX_MAX = (float)-8.5;
-    private float TY_MIN = (float)-114;
-    private float TY_MAX = (float)-54.4;
+    private float TX_MIN = (float) -80.1;
+    private float TX_MAX = (float) -8.5;
+    private float TY_MIN = (float) -114;
+    private float TY_MAX = (float) -54.4;
     public Location ILLINOIS = new Location(40.633125f, -89.398528f);
 
     private VizList changeMapMode;
@@ -169,6 +171,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    LocationWrapper wrapper = pair.getValue();
 	    Point2f point = map.locationPoint(wrapper.getLocation());
 	    Integer id = pair.getKey();
+	    wrapper.setMarkerType(markersType);
 	    AbstractMarker marker = wrapper.getCorrespondingMarker(point.x,
 		    point.y, MARKER_WIDTH, MARKER_HEIGHT, this, id);
 	    marker.setup();
@@ -210,7 +213,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    if (touchList.size() < 2) {
 		map.tx += (xPos - lastTouchPos.x) / map.sc;
 		map.ty += (yPos - lastTouchPos.y) / map.sc;
-		println(map.tx+" "+map.ty);
+		println(map.tx + " " + map.ty);
 		map.tx = costrain((float) map.tx, TX_MAX, TX_MIN);
 		map.ty = costrain((float) map.ty, TY_MAX, TY_MIN);
 	    } else if (touchList.size() == 2) {

@@ -83,6 +83,7 @@ public class DBUtil {
 
     public ArrayList<LocationWrapper> getPointsByState(Integer stateId,
 	    Integer year) {
+	System.out.println("Getting counts...");
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
