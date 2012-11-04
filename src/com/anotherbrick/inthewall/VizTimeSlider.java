@@ -135,8 +135,7 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscr
       beginShape();
       for (PVector point : points) {
         float x = PApplet.map(point.x, plot.getXMin(), plot.getXMax(), PADDING_LEFT, getWidth());
-        float y = PApplet
-            .map(point.y, getOverallYMin(plots), getOverallYMax(plots), getHeight(), 0);
+        float y = PApplet.map(point.y, 0, getOverallYMax(plots), getHeight(), 0);
 
         vertex(x, y);
       }

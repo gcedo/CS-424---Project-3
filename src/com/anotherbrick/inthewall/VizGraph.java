@@ -245,9 +245,10 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
       beginShape();
       for (int i = (int) xStart, j = 0; i <= xStop && j < points.size(); i++, j++) {
+        System.out.println(i + ": y = " + ((PVector) p[i - (int) plot.getXMin()]).y);
         float x = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).x, xStart, xStop,
             PLOT_PADDING_LEFT, getWidth());
-        float y = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).y, getOverallYMin(plots),
+        float y = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).y, 0,
             getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM, 0);
         if (!clustered) {
           vertex(x, y);

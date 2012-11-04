@@ -107,6 +107,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
     tab0Button = new VizButton(0, 62, TABBUTTON_W, TABBUTTON_H, this);
     tab0Button.setStyle(GRAPH_COLOR_1, WHITE, GRAPH_COLOR_1, 255, 255, 12);
     tab0Button.setStyleSelected(GRAPH_COLOR_1, WHITE, WHITE, 255, 255, 12);
+    tab0Button.setSelected(true);
+
     tab1Button = new VizButton(0, 104, TABBUTTON_W, TABBUTTON_H, this);
     tab1Button.setStyle(GRAPH_COLOR_2, WHITE, GRAPH_COLOR_2, 255, 255, 12);
     tab1Button.setStyleSelected(GRAPH_COLOR_2, WHITE, WHITE, 255, 255, 12);
