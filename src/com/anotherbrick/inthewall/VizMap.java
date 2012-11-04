@@ -53,6 +53,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     public float MARKER_HEIGHT = 10;
     private float SC_MIN = 12;
     private float SC_MAX = 2041;
+    private float TX_MIN = (float)-80.1;
+    private float TX_MAX = (float)-8.5;
+    private float TY_MIN = (float)-114;
+    private float TY_MAX = (float)-54.4;
     public Location ILLINOIS = new Location(40.633125f, -89.398528f);
 
     private VizList changeMapMode;
@@ -206,6 +210,9 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    if (touchList.size() < 2) {
 		map.tx += (xPos - lastTouchPos.x) / map.sc;
 		map.ty += (yPos - lastTouchPos.y) / map.sc;
+		println(map.tx+" "+map.ty);
+		map.tx = costrain((float) map.tx, TX_MAX, TX_MIN);
+		map.ty = costrain((float) map.ty, TY_MAX, TY_MIN);
 	    } else if (touchList.size() == 2) {
 		float sc = dist(lastTouchPos.x, lastTouchPos.y,
 			lastTouchPos2.x, lastTouchPos2.y);
