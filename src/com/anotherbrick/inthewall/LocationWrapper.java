@@ -7,6 +7,7 @@ import markers.FoggyMarker;
 import markers.MaleMarker;
 import markers.NightMarker;
 import markers.QuestionMarker;
+import markers.RainyMarker;
 import markers.SnowyMarker;
 import markers.SunnyMarker;
 import application.DBUtil;
@@ -135,7 +136,7 @@ public class LocationWrapper {
 		return new SnowyMarker(x, y, width, height, parent, id);
 	    if (getWeather().indexOf("Rain") != -1
 		    || getLight().indexOf("Hail") != -1)
-		return new QuestionMarker(x, y, width, height, parent, id);
+		return new RainyMarker(x, y, width, height, parent, id);
 	    if (getWeather().indexOf("No adverse") != -1)
 		return new SunnyMarker(x, y, width, height, parent, id);
 	    if (getWeather().indexOf("Fog") != -1
