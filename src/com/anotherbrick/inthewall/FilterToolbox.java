@@ -58,10 +58,14 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
       if (tab0Button.containsPoint(x, y)) {
         selector = 0;
         NotificationCenter.getInstance().notifyEvent("update-selector", 0);
+        tab0Button.setSelected(true);
+        tab1Button.setSelected(false);
       }
       if (tab1Button.containsPoint(x, y)) {
         selector = 1;
         NotificationCenter.getInstance().notifyEvent("update-selector", 1);
+        tab0Button.setSelected(false);
+        tab1Button.setSelected(true);
       }
 
       if (removeButton.containsPoint(x, y)) {
@@ -102,8 +106,10 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
     tab0Button = new VizButton(0, 62, TABBUTTON_W, TABBUTTON_H, this);
     tab0Button.setStyle(GRAPH_COLOR_1, WHITE, GRAPH_COLOR_1, 255, 255, 12);
-    tab1Button = new VizButton(0, 98, TABBUTTON_W, TABBUTTON_H, this);
+    tab0Button.setStyleSelected(GRAPH_COLOR_1, WHITE, WHITE, 255, 255, 12);
+    tab1Button = new VizButton(0, 104, TABBUTTON_W, TABBUTTON_H, this);
     tab1Button.setStyle(GRAPH_COLOR_2, WHITE, GRAPH_COLOR_2, 255, 255, 12);
+    tab1Button.setStyleSelected(GRAPH_COLOR_2, WHITE, WHITE, 255, 255, 12);
 
     // Filter Wrapper
     fw = new FilterWrapper(CRASH_ID);
