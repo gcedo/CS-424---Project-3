@@ -1,12 +1,17 @@
 package StatesMap;
 
-import com.anotherbrick.inthewall.Config.MyColorEnum;
-import com.anotherbrick.inthewall.VizPanel;
-
 import processing.core.PApplet;
 import processing.core.PVector;
+import application.DBUtil;
 
-class y_state extends VizPanel {
+import com.anotherbrick.inthewall.Config.MyColorEnum;
+import com.anotherbrick.inthewall.NotificationCenter;
+import com.anotherbrick.inthewall.StateInfo;
+import com.anotherbrick.inthewall.TouchEnabled;
+import com.anotherbrick.inthewall.VizButton;
+import com.anotherbrick.inthewall.VizPanel;
+
+class y_state extends VizPanel implements TouchEnabled {
     int id;
     String name;
     String acName;
@@ -14,11 +19,12 @@ class y_state extends VizPanel {
     PVector cen;
     float len;
     float scale;
+    VizButton v;
 
     y_state(String _id, String _name, float xc, float yc, float len,
 	    String _acName, float scale, VizPanel parent) {
-	super(scale * (xc - len / 2), scale * (yc - len / 2), scale * len,
-		scale * len, parent);
+	super(scale * (xc - len / 4) + 1, scale * (yc - len / 4) + 1, scale
+		* len / 2, scale * len / 2, parent);
 
 	id = Integer.parseInt(_id);
 	name = _name;
@@ -31,23 +37,29 @@ class y_state extends VizPanel {
 
     @Override
     public void setup() {
-	// TODO Auto-generated method stub
+	v = new VizButton(0, 0, getWidth(), getHeight(), this);
+	v.setStyle(MyColorEnum.DARK_BLUE, MyColorEnum.DARK_ORANGE,
+		MyColorEnum.DARK_WHITE, 255, 255, 6);
+	v.setText(acName);
 
     }
 
     @Override
     public boolean draw() {
-	pushStyle();
-	fill(MyColorEnum.DARK_WHITE);
-	noStroke();
-	rectMode(PApplet.CENTER);
-	rect(cen.x, cen.y, (float) (getWidth() * 0.5),
-		(float) (getHeight() * 0.5));
-	fill(MyColorEnum.DARK_ORANGE);
-	textAlign(PApplet.CENTER, PApplet.CENTER);
-	textSize(6);
-	text(acName, cen.x, cen.y);
-	popStyle();
+	v.draw();
+	v.drawTextCentered();
+	return false;
+    }
+
+    @Override
+    public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
+	if (down && v.containsPoint(x, y)) {
+	    System.out.println("touched " + name);
+	    StateInfo state = DBUtil.getInstance().getStateCenter(name);
+
+	    NotificationCenter.getInstance()
+		    .notifyEvent("state-changed", state);
+	}
 	return false;
     }
 }
