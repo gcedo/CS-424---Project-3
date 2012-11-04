@@ -12,6 +12,7 @@ import com.anotherbrick.inthewall.TouchEnabled;
 import com.anotherbrick.inthewall.VizGraph;
 import com.anotherbrick.inthewall.VizMap;
 import com.anotherbrick.inthewall.VizPanel;
+import com.anotherbrick.inthewall.VizScatterPlot;
 import com.anotherbrick.inthewall.VizTimeSlider;
 
 public class Application extends VizPanel implements TouchEnabled {
@@ -27,6 +28,12 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float GRAPH_HEIGHT = 270;
   private final float GRAPH_X0 = 861;
   private final float GRAPH_Y0 = 21;
+
+  private VizScatterPlot sp;
+  private final float SP_WIDTH = GRAPH_WIDTH;
+  private final float SP_HEIGHT = 250;
+  private final float SP_X0 = GRAPH_X0;
+  private final float SP_Y0 = GRAPH_Y0;
 
   private VizTimeSlider timeslider;
   private final float SLIDER_WIDTH = 436;
@@ -62,11 +69,16 @@ public class Application extends VizPanel implements TouchEnabled {
 
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();
-    addTouchSubscriber(graph);
+    // addTouchSubscriber(graph);
+
+    sp = new VizScatterPlot(SP_X0, SP_Y0, SP_WIDTH, SP_HEIGHT, this);
+    sp.setup();
+    addTouchSubscriber(sp);
 
     timeslider = new VizTimeSlider(SLIDER_X0, SLIDER_Y0, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeslider.setup();
     addTouchSubscriber(timeslider);
+    addDummyPlots();
   }
 
   @Override
@@ -78,7 +90,8 @@ public class Application extends VizPanel implements TouchEnabled {
     coverExceedingTiles();
 
     ft.draw();
-    graph.draw();
+    // graph.draw();
+    sp.draw();
     timeslider.draw();
 
     popStyle();
@@ -105,5 +118,7 @@ public class Application extends VizPanel implements TouchEnabled {
     plot.setFilled(true);
     graph.addPlot(plot, 0);
     timeslider.addPlot(plot, 0);
+
+    sp.setDots(points);
   }
 }

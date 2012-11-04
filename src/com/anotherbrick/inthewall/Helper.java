@@ -7,8 +7,10 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import processing.core.PApplet;
+import processing.core.PVector;
 
 public class Helper {
 
@@ -113,8 +115,58 @@ public class Helper {
     return ymin;
   }
 
-  public static double getTicksRange(int nOfTicks, ArrayList<PlotData> plots) {
+  public static double getYTicksRange(int nOfTicks, ArrayList<PlotData> plots) {
     double range = getOverallYMax(plots);
+    int tickCount = nOfTicks;
+    double unroundedTickSize = range / (tickCount - 1);
+
+    double x = Math.ceil(Math.log10(unroundedTickSize) - 1);
+    double pow10x = Math.pow(10, x);
+    double roundedTickRange = Math.ceil(unroundedTickSize / pow10x) * pow10x;
+
+    return roundedTickRange;
+  }
+
+  public static double getXTicksRangeForSinglePlot(int nOfTicks, ArrayList<PVector> dots) {
+
+    double range = Float.MIN_VALUE;
+    int tickCount = nOfTicks;
+
+    for (PVector v : dots) {
+      if (v.x > range) {
+        range = v.x;
+      }
+    }
+
+    double unroundedTickSize = range / (tickCount - 1);
+    double x = Math.ceil(Math.log10(unroundedTickSize) - 1);
+    double pow10x = Math.pow(10, x);
+    double roundedTickRange = Math.ceil(unroundedTickSize / pow10x) * pow10x;
+
+    return roundedTickRange;
+  }
+
+  public static double getYTicksRangeForSinglePlot(int nOfTicks, ArrayList<PVector> dots) {
+
+    double range = Float.MIN_VALUE;
+    int tickCount = nOfTicks;
+
+    for (PVector v : dots) {
+      if (v.y > range) {
+        range = v.y;
+      }
+    }
+
+    double unroundedTickSize = range / (tickCount - 1);
+    double x = Math.ceil(Math.log10(unroundedTickSize) - 1);
+    double pow10x = Math.pow(10, x);
+    double roundedTickRange = Math.ceil(unroundedTickSize / pow10x) * pow10x;
+
+    return roundedTickRange;
+  }
+
+  public static double getXTicksRange(int nOfTicks, ArrayList<PlotData> plots) {
+    double range = getOverallXMax(plots);
     int tickCount = nOfTicks;
     double unroundedTickSize = range / (tickCount - 1);
 

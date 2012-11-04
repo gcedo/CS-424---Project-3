@@ -309,7 +309,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   private void drawYAxisLabels() {
     int range;
-    range = (int) getTicksRange(TICK_COUNT, plots);
+    range = (int) getYTicksRange(TICK_COUNT, plots);
 
     range = range == 0 ? 1 : range;
 
