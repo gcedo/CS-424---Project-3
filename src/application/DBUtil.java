@@ -24,6 +24,7 @@ public class DBUtil {
 	if (instance == null)
 	    instance = new DBUtil();
 	return instance;
+
     }
 
     private DBUtil() {
@@ -82,8 +83,13 @@ public class DBUtil {
 	}
     }
 
+    private boolean alreadyGetting = false;
+
     public ArrayList<LocationWrapper> getPointsByState(Integer stateId,
 	    Integer year) {
+	if (alreadyGetting)
+	    return null;
+	alreadyGetting = true;
 	System.out.println("Getting counts...");
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
@@ -96,9 +102,11 @@ public class DBUtil {
 			.getFloat(2), r.getFloat(3), r.getString(4), r
 			.getString(5), r.getString(6)));
 	    }
+	    alreadyGetting = false;
 	    return ret;
 	} catch (SQLException e) {
 	    e.printStackTrace();
+	    alreadyGetting = false;
 	    return null;
 	}
     }

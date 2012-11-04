@@ -43,8 +43,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
     private static final float STATES_MAP_X0 = 20;
     private static final float STATES_MAP_Y0 = 225;
-    private static final float STATES_MAP_WIDTH = 220;
-    private static final float STATES_MAP_HEIGHT = 120;
+    private static final float STATES_MAP_WIDTH = 230;
+    private static final float STATES_MAP_HEIGHT = 200;
 
     private VizList weatherList, alcoholList, speedList, vehicleList, ageList,
 	    dayList, monthList, hourList, sexList, lcList;

@@ -33,6 +33,7 @@ public class StatesMap extends VizPanel implements TouchEnabled {
 	    float len = PApplet.sqrt(Float.parseFloat(pieces[4]));
 	    states[i] = new y_state(pieces[0], pieces[1], lon, lat, len,
 		    pieces[5], (float) 0.39, this);
+	    states[i].setup();
 	    addTouchSubscriber(states[i]);
 	}
 
