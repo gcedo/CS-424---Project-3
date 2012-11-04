@@ -159,9 +159,39 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	}
     }
 
+    /*
     private void drawLocationMarkers() {
-	for (AbstractMarker a : markers)
-	    a.draw();
+    	//right is larger than left
+    	float lon_right = getP().map((float)(-map.tx + getWidth()*0.5/map.sc), (float)0.0,(float)256.0,(float)-180.0,(float)180.0);
+    	float lon_left = getP().map((float)(-map.tx - getWidth()*0.5/map.sc), (float)0.0,(float)256.0,(float)-180.0,(float)180.0);
+    	//top is larger than bot
+    	float lat_top = getP().map((float)(-map.ty - getHeight()*0.5/map.sc), (float)0.0,(float)256.0,(float)90.0,(float)-90.0);
+    	float lat_bot = getP().map((float)(-map.ty + getHeight()*0.5/map.sc), (float)0.0,(float)256.0,(float)90.0,(float)-90.0);
+	for (AbstractMarker a : markers) {
+		//if ((-map.tx+getWidth()*0.5/map.sc) && a.getX0() > -map.tx - 537 * 0.5 / map.sc && a.getY0() < -map.ty + 384 * 0.5 / map.sc && a.getY0() > -map.ty - 384*0.5/map.sc) {
+		if (a.getX0() < lon_right && a.getX0() > lon_left) {
+				//&& a.getY0() < lat_top && a.getY0() > lat_bot) {
+				a.draw();
+				System.out.println("drawn!");
+		}
+		else {
+			System.out./("didn't!");
+		}
+	}
+	//System.out.println(lon_left+" "+(-map.tx)+" "+lon_right+";  \t"+lat_top+" "+(-map.ty)+" "+lat_bot);
+
+    }*/
+    
+    private void drawLocationMarkers() {
+    	int count = 0;
+    	for (AbstractMarker a : markers) {
+    		if (a.getX0() < this.getX0() || a.getX0() > this.getX0() + getWidth() || a.getY0() < this.getY0() || a.getY0() > this.getY0() + getHeight()) {
+    			continue;
+    		}
+    		a.draw();
+    		count++;
+    	}
+    	System.out.println(count+" markers drawn.");
     }
 
     private void updateLocationMarkers() {
@@ -213,7 +243,6 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    if (touchList.size() < 2) {
 		map.tx += (xPos - lastTouchPos.x) / map.sc;
 		map.ty += (yPos - lastTouchPos.y) / map.sc;
-		println(map.tx + " " + map.ty);
 		map.tx = costrain((float) map.tx, TX_MAX, TX_MIN);
 		map.ty = costrain((float) map.ty, TY_MAX, TY_MIN);
 	    } else if (touchList.size() == 2) {
