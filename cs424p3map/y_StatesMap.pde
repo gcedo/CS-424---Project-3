@@ -45,7 +45,7 @@ class StatesMap {
 			pushStyle();
 			fill(255);
 			textAlign(LEFT, CENTER);
-			text(states[i].name+": ("+states[i].cen.x+", "+states[i].cen.y+")", 10, 8+i*14);
+			text(states[i].name+": ("+states[i].cen.x+", "+states[i].cen.y+")", width-250, 8+i*14);
 			popStyle();
 		}
 	}
