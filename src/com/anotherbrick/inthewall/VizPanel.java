@@ -174,7 +174,7 @@ public abstract class VizPanel {
     public void ellipse(float a, float b, float c, float d) {
 	p.ellipse(x0Zoom + s(a), y0Zoom + s(b), s(c), s(d));
     }
-
+    
     public void ellipseMode(int mode) {
 	p.ellipseMode(mode);
     }
@@ -492,5 +492,9 @@ public abstract class VizPanel {
 
     public void vertex(float x, float y) {
 	p.vertex(s(x) + x0Zoom, s(y) + y0Zoom);
+    }
+    
+    public Main getP() {
+    	return p;
     }
 }
