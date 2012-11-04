@@ -68,6 +68,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
   public void setup() {
     NotificationCenter.getInstance().registerToEvent("update-graph", this);
     NotificationCenter.getInstance().registerToEvent("update-selector", this);
+    NotificationCenter.getInstance().registerToEvent("remove-graph", this);
     updateBounds();
   }
 
@@ -148,9 +149,6 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   public void removePlotAtIndex(int index) {
     getPlots().set(index, null);
-    if (clusteredPlots.size() == index + 1) {
-      clusteredPlots.set(index, null);
-    }
   }
 
   public int getNoOfActivePlots() {
@@ -222,11 +220,11 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     if (eventName.equals("update-graph")) {
       PlotData pdata = new PlotData((ArrayList<PVector>) data, palette[selector]);
       addPlot(pdata, selector);
-    }
-
-    if (eventName.equals("update-selector")) {
+    } else if (eventName.equals("update-selector")) {
       selector = (Integer) data;
       log("Selector = " + selector);
+    } else if (eventName.equals("remove-graph")) {
+      removePlotAtIndex(selector);
     }
 
   }

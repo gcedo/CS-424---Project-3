@@ -49,18 +49,23 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
   private HashMap<VizButton, VizList> listsAndButtons;
   private FilterWrapper fw;
+  private int selector;
 
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
     if (down) {
 
       if (tab0Button.containsPoint(x, y)) {
+        selector = 0;
         NotificationCenter.getInstance().notifyEvent("update-selector", 0);
-        log("Selector = 0");
       }
       if (tab1Button.containsPoint(x, y)) {
+        selector = 1;
         NotificationCenter.getInstance().notifyEvent("update-selector", 1);
-        log("Selector = 1");
+      }
+
+      if (removeButton.containsPoint(x, y)) {
+        NotificationCenter.getInstance().notifyEvent("remove-graph", selector);
       }
 
       if (applyButton.containsPoint(x, y)) {
