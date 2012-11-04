@@ -11,6 +11,7 @@ import processing.core.PVector;
 
 import com.anotherbrick.inthewall.CrashDetails;
 import com.anotherbrick.inthewall.LocationWrapper;
+import com.anotherbrick.inthewall.StateInfo;
 import com.modestmaps.geo.Location;
 import com.mysql.jdbc.Connection;
 
@@ -102,14 +103,15 @@ public class DBUtil {
 	}
     }
 
-    public Location getStateCenter(Integer stateId) {
+    public StateInfo getStateCenter(String stateName) {
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT lat, lon FROM states WHERE id = "
-			    + stateId + "LIMIT 1");
+		    .executeQuery("SELECT id, name, lat, lon FROM states WHERE name = '"
+			    + stateName + "' LIMIT 1");
 	    if (r.next()) {
-		return new Location(r.getFloat(1), r.getFloat(2));
+		return new StateInfo(r.getInt(1), r.getString(2), new Location(
+			r.getFloat(3), r.getFloat(4)));
 	    }
 	    return null;
 	} catch (SQLException e) {

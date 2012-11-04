@@ -272,6 +272,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
 	statesMap = new StatesMap(STATES_MAP_X0, STATES_MAP_Y0,
 		STATES_MAP_WIDTH, STATES_MAP_HEIGHT, this);
+	addTouchSubscriber(statesMap);
     }
 
     private void disableOtherButtons(VizButton button, boolean disable) {
@@ -289,6 +290,9 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 
 	tab0Button.draw();
 	tab1Button.draw();
+	statesMap.draw();
+	applyButton.draw();
+	removeButton.draw();
 
 	for (VizButton button : listsAndButtons.keySet()) {
 	    button.draw();
@@ -299,11 +303,6 @@ public class FilterToolbox extends VizPanel implements TouchEnabled {
 	    list.draw();
 	    list.setToRedraw();
 	}
-
-	applyButton.draw();
-	removeButton.draw();
-
-	statesMap.draw();
 
 	popStyle();
 	return true;

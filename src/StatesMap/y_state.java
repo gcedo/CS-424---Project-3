@@ -1,12 +1,16 @@
 package StatesMap;
 
-import com.anotherbrick.inthewall.Config.MyColorEnum;
-import com.anotherbrick.inthewall.VizPanel;
-
 import processing.core.PApplet;
 import processing.core.PVector;
+import application.DBUtil;
 
-class y_state extends VizPanel {
+import com.anotherbrick.inthewall.Config.MyColorEnum;
+import com.anotherbrick.inthewall.NotificationCenter;
+import com.anotherbrick.inthewall.StateInfo;
+import com.anotherbrick.inthewall.TouchEnabled;
+import com.anotherbrick.inthewall.VizPanel;
+
+class y_state extends VizPanel implements TouchEnabled {
     int id;
     String name;
     String acName;
@@ -48,6 +52,17 @@ class y_state extends VizPanel {
 	textSize(6);
 	text(acName, cen.x, cen.y);
 	popStyle();
+	return false;
+    }
+
+    @Override
+    public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
+	if (down) {
+	    StateInfo state = DBUtil.getInstance().getStateCenter(name);
+
+	    NotificationCenter.getInstance()
+		    .notifyEvent("state-changed", state);
+	}
 	return false;
     }
 }

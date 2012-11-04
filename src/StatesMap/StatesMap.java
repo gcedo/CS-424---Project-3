@@ -1,11 +1,12 @@
 package StatesMap;
 
-import com.anotherbrick.inthewall.VizPanel;
-
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class StatesMap extends VizPanel {
+import com.anotherbrick.inthewall.TouchEnabled;
+import com.anotherbrick.inthewall.VizPanel;
+
+public class StatesMap extends VizPanel implements TouchEnabled {
     int num;
     y_state[] states;
 
@@ -32,6 +33,7 @@ public class StatesMap extends VizPanel {
 	    float len = PApplet.sqrt(Float.parseFloat(pieces[4]));
 	    states[i] = new y_state(pieces[0], pieces[1], lon, lat, len,
 		    pieces[5], (float) 0.39, this);
+	    addTouchSubscriber(states[i]);
 	}
 
 	lines = new String[num];
@@ -53,6 +55,12 @@ public class StatesMap extends VizPanel {
 	for (int i = 0; i < num; i++) {
 	    states[i].draw();
 	}
+	return false;
+    }
+
+    @Override
+    public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
+	propagateTouch(x, y, down, touchType);
 	return false;
     }
 }
