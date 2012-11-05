@@ -66,6 +66,12 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float LEGEND_W = GRAPH_WIDTH - (BUTTON_WIDTH + 5);
   private final float LEGEND_H = 40;
 
+  private VizButton historyButton;
+  private final float HISTORY_H = 20;
+  private final float HISTORY_W = 40;
+  private final float HISTORY_X0 = getWidth() - HISTORY_W - 2;
+  private final float HISTORY_Y0 = getHeight() / 2 - HISTORY_H;
+
   private enum Mode {
     GRAPH, SCATTER
   }
@@ -78,8 +84,12 @@ public class Application extends VizPanel implements TouchEnabled {
 
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
-    if (down && tabButton.containsPoint(x, y)) {
-      currentMode = currentMode == Mode.GRAPH ? Mode.SCATTER : Mode.GRAPH;
+    if (down) {
+      if (tabButton.containsPoint(x, y)) {
+        currentMode = currentMode == Mode.GRAPH ? Mode.SCATTER : Mode.GRAPH;
+      } else if (historyButton.containsPoint(x, y)) {
+        graph.showHistoricalEvents = graph.showHistoricalEvents ? false : true;
+      }
     }
     propagateTouch(x, y, down, touchType);
     return false;
@@ -89,6 +99,10 @@ public class Application extends VizPanel implements TouchEnabled {
   public void setup() {
 
     legend = new Legend(LEGEND_X0, LEGEND_Y0, LEGEND_W, LEGEND_H, this);
+
+    historyButton = new VizButton(HISTORY_X0, HISTORY_Y0, HISTORY_W, HISTORY_H, this);
+    historyButton.setStyle(MyColorEnum.MEDIUM_GRAY, WHITE, MyColorEnum.DARK_WHITE, 255, 255, 12);
+    historyButton.setRoundedCornerd(5, 5, 5, 5);
 
     map = new VizMap(MAP_X0, MAP_Y0, MAP_WIDTH, MAP_HEIGHT, this);
     map.setup();
@@ -147,6 +161,7 @@ public class Application extends VizPanel implements TouchEnabled {
     tabButton.draw();
     tabButton.drawTextCentered();
     legend.draw();
+    historyButton.draw();
 
     popStyle();
     return false;
