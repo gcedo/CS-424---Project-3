@@ -83,13 +83,14 @@ public class Application extends VizPanel implements TouchEnabled {
     map = new VizMap(MAP_X0, MAP_Y0, MAP_WIDTH, MAP_HEIGHT, this);
     map.setup();
     addTouchSubscriber(map);
-    NotificationCenter.getInstance().notifyEvent("state-changed",
-        new StateInfo(17, "Illinois", new Location(40.633125f, -89.398528f), 6));
-    NotificationCenter.getInstance().notifyEvent("year-changed", 2001);
 
     ft = new FilterToolbox(FT_X0, FT_Y0, FT_WIDTH, FT_HEIGHT, this);
     ft.setup();
     addTouchSubscriber(ft);
+
+    NotificationCenter.getInstance().notifyEvent("state-changed",
+        new StateInfo(17, "Illinois", new Location(40.633125f, -89.398528f), 6));
+    NotificationCenter.getInstance().notifyEvent("year-changed", 2001);
 
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();

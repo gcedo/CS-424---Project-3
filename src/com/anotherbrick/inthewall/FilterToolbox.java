@@ -261,7 +261,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     textSize(18);
     textAlign(PApplet.LEFT, PApplet.TOP);
     text("Current Year: " + currentYear, 30, 10);
-    text("Current State: " + "Illinois", 30, 35);
+    text("Current State: " + currentState.getName(), 30, 35);
     popStyle();
   }
 

@@ -372,7 +372,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
           costrain(m.touchX, getX0Absolute() + getWidth() - HALF_SLIDER - PLOT_PADDING_RIGHT,
               PLOT_PADDING_LEFT - HALF_SLIDER + getX0Absolute()), yearSlider.getY0Absolute());
     if (wasMoving && !yearSlider.moving)
-      setYear(yearSlider.getX0() + SLIDER_WIDTH / 2);
+      setYear(yearSlider.getX0() - SLIDER_WIDTH / 2);
     wasMoving = yearSlider.moving;
   }
 
