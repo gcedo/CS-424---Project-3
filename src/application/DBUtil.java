@@ -157,11 +157,8 @@ public class DBUtil {
 	    ret += "AND ";
 	    for (String key : filters.keySet()) {
 		ret += "( ";
-		ArrayList<String> f = filters.get(key);
-		for (String s : f) {
-		    ret += key + " = '" + s + "' OR ";
-		}
-		ret += "FALSE ) AND ";
+		ret += generateFilters(key, filters.get(key));
+		ret += " FALSE ) AND ";
 	    }
 	    ret += "TRUE ";
 	}
@@ -169,6 +166,29 @@ public class DBUtil {
 	ret += "GROUP BY year ORDER BY year";
 	if (DEBUG)
 	    System.out.println(ret);
+	return ret;
+    }
+
+    public String generateFilters(String key, ArrayList<String> values) {
+	String ret = "";
+	if (key.equals("vehicletype") || key.equals("sex")) {
+	    String temp = "('";
+	    for (String s : values)
+		temp += s + " ";
+	    temp += "' IN BOOLEAN MODE)";
+	    return "MATCH(" + key + ") AGAINST " + temp + " OR ";
+	}
+	if (key.equals("age"))
+	    return key + ">" + "'" + values.get(values.size() - 1) + "' OR ";
+	if (key.equals("alcohol"))
+	    return key + ">" + values.get(values.size() - 1) + " OR ";
+	if (key.equals("avgspeed"))
+	    return key + ">" + values.get(values.size() - 1).split(" ")[0]
+		    + " OR ";
+
+	for (String s : values) {
+	    ret += key + " = '" + s + "' OR ";
+	}
 	return ret;
     }
 

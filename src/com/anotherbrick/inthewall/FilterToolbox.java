@@ -193,7 +193,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled,
 	alcoholList = new VizList(SECOND_COL_X0, FIRST_ROW_Y0 + BUTTON_H,
 		LIST_W, LIST_H, this);
 	alcoholList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getAlcohol(), false,
-		SelectionMode.MULTIPLE);
+		SelectionMode.SINGLE);
 	alcoholList.setListName(ALCOHOL);
 
 	alcoholButton = new VizButton(SECOND_COL_X0, FIRST_ROW_Y0, LIST_W,
@@ -205,7 +205,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled,
 	speedList = new VizList(FIRST_COL_X0, SECOND_ROW_Y0 + BUTTON_H, LIST_W,
 		LIST_H, this);
 	speedList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getSpeeds(), false,
-		SelectionMode.MULTIPLE);
+		SelectionMode.SINGLE);
 	speedList.setListName(SPEED);
 
 	speedButton = new VizButton(FIRST_COL_X0, SECOND_ROW_Y0, LIST_W,
@@ -229,7 +229,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled,
 	ageList = new VizList(FIRST_COL_X0, THIRD_ROW_Y0 + BUTTON_H, LIST_W,
 		LIST_H, this);
 	ageList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getAge(), false,
-		SelectionMode.MULTIPLE);
+		SelectionMode.SINGLE);
 	ageList.setListName(AGE);
 
 	ageButton = new VizButton(FIRST_COL_X0, THIRD_ROW_Y0, LIST_W, BUTTON_H,

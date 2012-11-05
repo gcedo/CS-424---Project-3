@@ -84,7 +84,7 @@ public class ListsFiller {
 
     public static ArrayList<String> getAge() {
 	ArrayList<String> age = new ArrayList<String>();
-	for (int i = 1; i <= 110; i += 10) {
+	for (int i = 10; i <= 110; i += 10) {
 	    age.add(Integer.toString(i));
 	}
 	return age;
@@ -110,7 +110,7 @@ public class ListsFiller {
 
     public static ArrayList<String> getSpeeds() {
 	ArrayList<String> speeds = new ArrayList<String>();
-	for (int i = 0; i <= 150; i += 10) {
+	for (int i = 20; i <= 150; i += 10) {
 	    speeds.add(Integer.toString(i) + " MPH");
 	}
 
