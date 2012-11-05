@@ -51,4 +51,24 @@ public class FilterWrapper {
 	conditions.put(key, options);
     }
 
+    public String toString() {
+	String ret = "";
+	if (conditions.size() > 0) {
+	    for (String k : conditions.keySet()) {
+		ret += k.toUpperCase() + ": ";
+		ArrayList<String> a = conditions.get(k);
+		int i = 0;
+		for (String f : a) {
+		    i++;
+		    ret += f;
+		    if (i != a.size())
+			ret += ", ";
+		}
+		ret += "\n";
+
+	    }
+	}
+	return ret;
+    }
+
 }
