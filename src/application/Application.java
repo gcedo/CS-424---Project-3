@@ -49,7 +49,7 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float FT_WIDTH = 281;
   private final float FT_HEIGHT = 363;
   private final float FT_X0 = 560;
-  private final float FT_Y0 = 21;
+  private final float FT_Y0 = 18;
 
   private VizButton tabButton;
   private final float BUTTON_HEIGHT = 40;

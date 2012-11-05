@@ -6,6 +6,8 @@ import static com.anotherbrick.inthewall.ListsFiller.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import processing.core.PApplet;
+
 import application.DBUtil;
 import application.FilterWrapper;
 
@@ -118,11 +120,13 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     tab0Button = new VizButton(0, 62, TABBUTTON_W, TABBUTTON_H, this);
     tab0Button.setStyle(GRAPH_COLOR_1, WHITE, GRAPH_COLOR_1, 255, 255, 12);
     tab0Button.setStyleSelected(GRAPH_COLOR_1, WHITE, WHITE, 255, 255, 12);
+    tab0Button.setRoundedCornerd(3, 3, 3, 3);
     tab0Button.setSelected(true);
 
     tab1Button = new VizButton(0, 104, TABBUTTON_W, TABBUTTON_H, this);
     tab1Button.setStyle(GRAPH_COLOR_2, WHITE, GRAPH_COLOR_2, 255, 255, 12);
     tab1Button.setStyleSelected(GRAPH_COLOR_2, WHITE, WHITE, 255, 255, 12);
+    tab1Button.setRoundedCornerd(3, 3, 3, 3);
 
     // Filter Wrapper
     fw = new FilterWrapper(CRASH_ID);
@@ -230,8 +234,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(lcButton, lcList);
 
     for (Map.Entry<VizButton, VizList> entry : listsAndButtons.entrySet()) {
-      entry.getKey().setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
-      entry.getKey().setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
+      entry.getKey().setStyle(MEDIUM_GRAY, WHITE, DARK_WHITE, 255, 255, 14);
+      entry.getKey().setStyleDisabled(MEDIUM_GRAY, WHITE, DARK_WHITE, 255, 255, 14);
       entry.getKey().setRoundedCornerd(5, 5, 5, 5);
       entry.getValue().setVisible(false);
       addTouchSubscriber(entry.getValue());
@@ -253,15 +257,26 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
   private void drawCurrentStatus() {
     pushStyle();
     fill(WHITE);
-    textSize(12);
-
+    textSize(14);
+    textAlign(PApplet.LEFT, PApplet.TOP);
+    text("Current Year: " + currentYear, 30, 10);
+    text("Current State: " + "Illinois", 30, 25);
     popStyle();
   }
 
   @Override
   public boolean draw() {
     pushStyle();
-    background(LIGHT_BLUE);
+    noStroke();
+    background(DARK_GRAY);
+
+    strokeWeight(1);
+    stroke(DARK_WHITE);
+
+    fill(LIGHT_GRAY);
+    rect(TABBUTTON_W / 2, 0, getWidth() - TABBUTTON_W / 2, getHeight(), 5, 5, 5, 5);
+
+    drawCurrentStatus();
 
     tab0Button.draw();
     tab1Button.draw();
