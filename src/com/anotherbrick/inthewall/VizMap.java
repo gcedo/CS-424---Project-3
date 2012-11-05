@@ -359,7 +359,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       }
 
       for (AbstractMarker marker : markers) {
-        if (marker.containsPoint(x, y)) {
+        if (marker.containsPoint(x, y) && map.sc > CLUSTER_SC_MAX) {
           LocationWrapper wrapper = locationsList.get(marker.getId());
           Location location = wrapper.getLocation();
           log("You have touched location located at lat: " + location.lat + " and long: "

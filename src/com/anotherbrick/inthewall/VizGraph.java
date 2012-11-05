@@ -364,9 +364,8 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   private void setYear(float position) {
     float year = PApplet.map(position + HALF_SLIDER, PLOT_PADDING_LEFT, getWidth(), xStart, xStop);
-
     NotificationCenter.getInstance().notifyEvent("year-changed", new Integer((int) year));
-
+    log("Notifying set year");
   }
 
   private float costrain(float value, float maxValue, float minValue) {

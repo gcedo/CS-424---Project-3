@@ -13,7 +13,7 @@ import com.anotherbrick.inthewall.VizList.SelectionMode;
 import processing.core.PApplet;
 import processing.core.PVector;
 
-public class VizScatterPlot extends VizPanel implements TouchEnabled {
+public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubscriber {
 
   private static final float BUTTON_W = 40;
   private static final float BUTTON_H = 20;
@@ -41,6 +41,7 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled {
   float maxY;
   private String xLabel = "x label";
   private String yLabel = "y label";
+  private int currentYear = 2001;
 
   private VizList xAxisVar, yAxisVar, yearList;
   private VizButton xAxisButton, yAxisButton, yearButton, plotButton;
@@ -57,6 +58,8 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled {
 
   @Override
   public void setup() {
+    NotificationCenter.getInstance().registerToEvent("year-changed-timeslider", this);
+
     buttons = new ArrayList<VizButton>();
 
     yearButton = new VizButton(0, YEAR_BUTTON_Y0, BUTTON_W, BUTTON_H, this);
@@ -274,12 +277,19 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled {
         if (plotButton.containsPoint(x, y) && !plotButton.isDisabled()) {
           String xAxis = (String) xAxisVar.getSelected().get(0);
           String yAxis = (String) yAxisVar.getSelected().get(0);
-          Integer year = (Integer) yearList.getSelected().get(0);
-          setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, year));
+          setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, currentYear));
         }
       }
       propagateTouch(x, y, down, touchType);
     }
     return false;
+  }
+
+  @Override
+  public void eventReceived(String eventName, Object data) {
+    if (eventName.equals("year-changed-timeslider")) {
+      currentYear = (Integer) data;
+      log("Year changed received, current year = " + currentYear);
+    }
   }
 }

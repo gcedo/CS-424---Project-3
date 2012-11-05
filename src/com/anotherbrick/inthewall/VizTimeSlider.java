@@ -70,6 +70,7 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscr
     Float xStart = PApplet.map(x0, PADDING_LEFT, getWidth(), getOverallXMin(plots),
         getOverallXMax(plots));
     graph.setX0(xStart.intValue());
+    NotificationCenter.getInstance().notifyEvent("year-changed-timeslider", xStart.intValue());
   }
 
   private void setXStop(float xn) {
@@ -84,6 +85,7 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscr
     Float xStop = PApplet.map(xn, PADDING_LEFT, getWidth(), getOverallXMin(plots),
         getOverallXMax(plots));
     graph.setXn(xStop.intValue());
+    NotificationCenter.getInstance().notifyEvent("year-changed-timeslider", xStop.intValue());
   }
 
   @Override
