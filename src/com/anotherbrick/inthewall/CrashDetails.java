@@ -99,13 +99,13 @@ public class CrashDetails {
 
     @Override
     public String toString() {
-	return "weather : " + getWeather() + "\n light=" + getLight()
-		+ "\n gender : " + getGender() + "\n vehicles : "
+	return "Weather : " + getWeather() + "\n Light : " + getLight()
+		+ "\n Gender : " + getGender() + "\n Vehicles : "
 		+ getVehicles() + "\n Date:" + getDate() + " " + getTime()
-		+ "\n speedLimit : " + getSpeedLimit() + "\n fatalities : "
-		+ getFatalities() + "\n avgAge : " + getAvgAge()
-		+ "\n avgSpeed : " + getAvgSpeed() + "\n maxSpeed : "
-		+ getMaxSpeed() + "\n alcohol: " + getAlcohol() + "% BAC ";
+		+ "\n Speed Limit : " + getSpeedLimit() + "\n Fatalities : "
+		+ getFatalities() + "\n Avg. Age : " + getAvgAge()
+		+ "\n Ave. Speed : " + getAvgSpeed() + "\n Max. Speed : "
+		+ getMaxSpeed() + "\n alcohol: " + getAlcohol() + "% BAC \n\nTouch me to close!";
     }
 
 }
