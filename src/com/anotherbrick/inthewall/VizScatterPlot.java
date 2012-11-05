@@ -32,7 +32,10 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
   private static final float VOL_TICK_WEIGHT_SCATTER = 1;
 
   private static final float PADDING_RIGHT = 100;
-  private static final int N_ROWS = 2;
+  private static final float PADDING_LEFT = 40;
+  private static final float PADDING_TOP = 20;
+  private static final float PADDING_BOTTOM = 20;
+  private static final int N_ROWS = 3;
   private static final float LIST_W = 100;
   private static int NOFTICKS = 10;
 
@@ -81,8 +84,9 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
     buttons.add(plotButton);
 
     for (VizButton b : buttons) {
-      b.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
-      b.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
+      b.setStyle(MEDIUM_GRAY, WHITE, DARK_WHITE, 255, 255, 14);
+      b.setStyleDisabled(MEDIUM_GRAY, WHITE, DARK_WHITE, 255, 255, 14);
+      b.setRoundedCornerd(5, 5, 5, 5);
     }
 
     xAxisVar = new VizList(0, BUTTON_X_Y0 - 60, LIST_W, 60, this);
@@ -147,7 +151,10 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
 
     pushStyle();
 
-    background(MyColorEnum.LIGHT_ORANGE);
+    fill(LIGHT_GRAY);
+    stroke(DARK_WHITE);
+    strokeWeight(1);
+    rect(BUTTON_W / 2, 0, getWidth() - BUTTON_W / 2, getHeight(), 5, 5, 5, 5);
 
     if (dots != null) {
       renderAxisLabels();
@@ -166,19 +173,20 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
     yearList.draw();
     yearList.setToRedraw();
 
-    stroke(AXIS_COLOR_SCATTER);
-    strokeWeight(AXIS_WEIGHT_SCATTER);
+    stroke(DARK_WHITE);
+    strokeWeight(0.5f);
 
-    line(PADDING_RIGHT, getHeight(), getWidth(), getHeight());
-    line(PADDING_RIGHT, 0, PADDING_RIGHT, getHeight());
+    line(PADDING_RIGHT, getHeight() - PADDING_BOTTOM, getWidth() - PADDING_LEFT, getHeight()
+        - PADDING_BOTTOM);
+    line(PADDING_RIGHT, 0 + PADDING_TOP, PADDING_RIGHT, getHeight() - PADDING_BOTTOM);
 
     noStroke();
-    fill(DOT_COLOR_SCATTER);
+    fill(DOT_COLOR_SCATTER, 120);
 
     if (dots != null) {
       for (PVector p : dots) {
-        float x = PApplet.map(p.x, 0, maxX, PADDING_RIGHT, getWidth());
-        float y = PApplet.map(p.y, 0, maxY, getHeight(), 0);
+        float x = PApplet.map(p.x, 0, maxX, PADDING_RIGHT, getWidth() - PADDING_LEFT);
+        float y = PApplet.map(p.y, 0, maxY, getHeight() - PADDING_BOTTOM, PADDING_TOP);
         ellipse(x, y, DOT_SIZE_SCATTER, DOT_SIZE_SCATTER);
       }
     }
@@ -195,9 +203,9 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
     textSize(AXIS_LABEL_SIZE_SCATTER);
     fill(MyColorEnum.WHITE);
     textAlign(PApplet.LEFT, PApplet.CENTER);
-    text(xLabel, getWidth(), getHeight());
+    text(xLabel, getWidth() - PADDING_LEFT, getHeight() - PADDING_BOTTOM);
     textAlign(PApplet.CENTER, PApplet.BOTTOM);
-    text(yLabel, PADDING_RIGHT, 0);
+    text(yLabel, PADDING_RIGHT, PADDING_TOP);
 
     popStyle();
   }
@@ -215,8 +223,8 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
 
     int increase = (int) getXTicksRangeForSinglePlot(NOFTICKS, dots);
     for (float v = 0; v < maxX; v += increase) {
-      float x = PApplet.map(v, 0, maxX, PADDING_RIGHT, getWidth());
-      text(PApplet.round(v) + "", x, getHeight() + 3);
+      float x = PApplet.map(v, 0, maxX, PADDING_RIGHT, getWidth() - PADDING_LEFT);
+      text(PApplet.round(v) + "", x, getHeight() + 3 - PADDING_BOTTOM);
     }
 
     // Y axis
@@ -224,7 +232,7 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
 
     increase = (int) getYTicksRangeForSinglePlot(NOFTICKS, dots);
     for (float v = 0; v < maxY; v += increase) {
-      float y = PApplet.map(v, 0, maxY, getHeight(), 0);
+      float y = PApplet.map(v, 0, maxY, getHeight() - PADDING_BOTTOM, PADDING_TOP);
       text(PApplet.round(v) + "", PADDING_RIGHT - 5, y);
     }
 
