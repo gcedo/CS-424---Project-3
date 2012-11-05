@@ -107,7 +107,7 @@ public class DBUtil {
 	try {
 	    Statement stm = con.createStatement();
 	    ResultSet r = stm
-		    .executeQuery("SELECT id, name, lat, lon FROM states, zoomlevel WHERE name = '"
+		    .executeQuery("SELECT id, name, lat, lon, zoomlevel FROM states WHERE name = '"
 			    + stateName + "' LIMIT 1");
 	    if (r.next()) {
 		return new StateInfo(r.getInt(1), r.getString(2), new Location(
