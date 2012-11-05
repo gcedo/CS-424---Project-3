@@ -50,7 +50,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     public float MARKER_HEIGHT = 10;
     private float SC_MIN = 12;
     private float SC_MAX = 2041;
-    private float CLUSTER_SC_MAX = 400;
+    private float CLUSTER_SC_MAX = s(1400);
     private float TX_MIN = (float) -80.1;
     private float TX_MAX = (float) -8.5;
     private float TY_MIN = (float) -114;
