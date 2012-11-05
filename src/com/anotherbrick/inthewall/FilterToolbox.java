@@ -56,7 +56,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
 
   private StatesMap statesMap;
 
-  private Integer currentYear;
+  private Integer currentYear = 2001;
   private StateInfo currentState;
 
   private HashMap<VizButton, VizList> listsAndButtons;
@@ -116,6 +116,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
   @Override
   public void setup() {
     NotificationCenter.getInstance().registerToEvent("state-changed", this);
+    NotificationCenter.getInstance().registerToEvent("year-changed", this);
 
     tab0Button = new VizButton(0, 62, TABBUTTON_W, TABBUTTON_H, this);
     tab0Button.setStyle(GRAPH_COLOR_1, WHITE, GRAPH_COLOR_1, 255, 255, 12);
@@ -303,6 +304,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     if (eventName.equals("state-changed")) {
       currentState = (StateInfo) data;
       log("Event received, current state: " + currentState.getName());
+    } else if (eventName.equals("year-changed")) {
+      currentYear = (Integer) data;
     }
 
   }

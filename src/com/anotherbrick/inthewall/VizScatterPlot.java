@@ -22,8 +22,6 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
   private static final float YEAR_BUTTON_Y0 = 190;
   private static final float PLOT_BUTTON_Y0 = 215;
 
-  private static final MyColorEnum AXIS_COLOR_SCATTER = MyColorEnum.RED;
-  private static final float AXIS_WEIGHT_SCATTER = 4;
   private static final MyColorEnum DOT_COLOR_SCATTER = MyColorEnum.LIGHT_BLUE;
   private static final float DOT_SIZE_SCATTER = 3;
   private static final float AXIS_LABEL_SIZE_SCATTER = 10;
@@ -277,6 +275,8 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
         if (yearButton.containsPoint(x, y) && !yearButton.isDisabled()) {
           yearList.toggleVisible();
           if (!yearList.isVisible()) {
+            currentYear = (Integer) (!yearList.getSelected().isEmpty() ? yearList.getSelected()
+                .get(0) : currentYear);
             disableOtherButtons(yearButton, false);
           } else {
             disableOtherButtons(yearButton, true);

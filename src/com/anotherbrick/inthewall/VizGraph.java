@@ -208,6 +208,13 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       drawPlot(cluster, drawPlots);
     }
 
+    strokeWeight(0.8f);
+    stroke(MyColorEnum.DARK_WHITE);
+
+    line(PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM, getWidth() - PLOT_PADDING_RIGHT,
+        getHeight() - PLOT_PADDING_BOTTOM);
+    line(PLOT_PADDING_LEFT, PLOT_PADDING_TOP, PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM);
+
     forceYearSliderUpdate();
     yearSlider.draw();
     popStyle();
@@ -365,7 +372,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
           costrain(m.touchX, getX0Absolute() + getWidth() - HALF_SLIDER - PLOT_PADDING_RIGHT,
               PLOT_PADDING_LEFT - HALF_SLIDER + getX0Absolute()), yearSlider.getY0Absolute());
     if (wasMoving && !yearSlider.moving)
-      setYear(yearSlider.getX0());
+      setYear(yearSlider.getX0() + SLIDER_WIDTH / 2);
     wasMoving = yearSlider.moving;
   }
 
