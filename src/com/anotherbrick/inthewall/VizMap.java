@@ -28,7 +28,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
   private static final float CHANGE_MODE_TOGGLE_H = 10;
   private static final float CHANGE_MODE_TOGGLE_Y0 = 370;
 
-  private static final float CHANGE_MODE_W = 130;
+  private static final float CHANGE_MODE_W = 100;
   private static final float CHANGE_MODE_H = 80;
   private static final float TTIP_H = 200;
   private static final float TTIP_W = 150;
@@ -79,9 +79,22 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     changeModeToggle = new VizButton(CHANGE_MODE_TOGGLE_X0, CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W,
         CHANGE_MODE_TOGGLE_H, this);
     changeModeToggle.setText("Map Mode");
-    changeModeToggle.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
-    changeModeToggle.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 14);
+    changeModeToggle.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 8);
+    changeModeToggle.setStyleDisabled(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 8);
     changeModeToggle.setRoundedCornerd(5, 5, 5, 5);
+    changeModeToggle.setText("Change map mode");
+
+    changeMarkers = new VizList(CHANGE_MARKERS_X0, CHANGE_MARKERS_Y0, CHANGE_MODE_W, CHANGE_MODE_H,
+        this);
+    changeMarkers.setup(LIGHT_GRAY, DARK_GRAY, CHANGE_MODE_ROWS, markersTypes(), false,
+        SelectionMode.SINGLE);
+    changeMarkers.setVisible(false);
+    changeMarkersButton = new VizButton(CHANGE_MODE_TOGGLE_X0 + CHANGE_MODE_W + 10,
+        CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H, this);
+    changeMarkersButton.setStyle(MEDIUM_GRAY, WHITE, LIGHT_GRAY, 255, 255, 8);
+    changeMarkersButton.setRoundedCornerd(5, 5, 5, 5);
+    changeMarkersButton.setText("Change Markers");
+    addTouchSubscriber(changeMarkers);
 
     NotificationCenter.getInstance().registerToEvent("year-changed", this);
     NotificationCenter.getInstance().registerToEvent("state-changed", this);
@@ -92,15 +105,6 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
   public void setup() {
     setModal(false);
     lastTouchPos = new PVector();
-
-    changeMarkers = new VizList(CHANGE_MARKERS_X0, CHANGE_MARKERS_Y0, CHANGE_MODE_W, CHANGE_MODE_H,
-        this);
-    changeMarkers.setup(LIGHT_GRAY, DARK_GRAY, CHANGE_MODE_ROWS, markersTypes(), false,
-        SelectionMode.SINGLE);
-    changeMarkers.setVisible(false);
-    changeMarkersButton = new VizButton(CHANGE_MODE_TOGGLE_X0 + CHANGE_MODE_W,
-        CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H, this);
-    addTouchSubscriber(changeMarkers);
 
     locationsList = new HashMap<Integer, LocationWrapper>();
     markers = new ArrayList<AbstractMarker>();
@@ -160,11 +164,13 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     changeMarkers.setToRedraw();
 
     changeMarkersButton.draw();
+    changeMarkersButton.drawTextCentered();
 
     changeMapMode.setToRedraw();
     changeMapMode.draw();
     changeModeToggle.setToRedraw();
     changeModeToggle.draw();
+    changeModeToggle.drawTextCentered();
 
     if (tooltip != null && tooltip.isVisible()) {
       tooltip.draw();
@@ -315,7 +321,9 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     if (down && changeModeToggle.containsPoint(x, y)) {
       if (changeMapMode.isVisible()) {
-        changeMapStyle((MapStyles) changeMapMode.getSelected().get(0));
+        if (!changeMapMode.getSelected().isEmpty()) {
+          changeMapStyle((MapStyles) changeMapMode.getSelected().get(0));
+        }
       }
       changeMapMode.toggleVisible();
       return false;
@@ -323,7 +331,9 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     if (down && changeMarkersButton.containsPoint(x, y)) {
       if (changeMarkers.isVisible()) {
-        changeMarkers((String) changeMarkers.getSelected().get(0));
+        if (!changeMarkers.getSelected().isEmpty()) {
+          changeMarkers((String) changeMarkers.getSelected().get(0));
+        }
       }
       changeMarkers.toggleVisible();
       return false;
