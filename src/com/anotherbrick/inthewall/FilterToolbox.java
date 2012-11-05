@@ -3,6 +3,7 @@ package com.anotherbrick.inthewall;
 import static com.anotherbrick.inthewall.Config.MyColorEnum.*;
 import static com.anotherbrick.inthewall.ListsFiller.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -172,7 +173,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
 
     // Alcohol
     alcoholList = new VizList(SECOND_COL_X0, FIRST_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
-    alcoholList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getMonths(), false, SelectionMode.MULTIPLE);
+    alcoholList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getAlcohol(), false, SelectionMode.MULTIPLE);
     alcoholList.setListName(ALCOHOL);
 
     alcoholButton = new VizButton(SECOND_COL_X0, FIRST_ROW_Y0, LIST_W, BUTTON_H, this);
@@ -225,7 +226,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(sexButton, sexList);
 
     // Light Condition
-    lcList = new VizList(SECOND_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
+    lcList = new VizList(SECOND_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W + 20, LIST_H, this);
     lcList
         .setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getLightConditions(), false, SelectionMode.MULTIPLE);
     lcList.setListName(LIGHT_CONDITION);
@@ -245,6 +246,15 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     statesMap = new StatesMap(STATES_MAP_X0, STATES_MAP_Y0, STATES_MAP_WIDTH, STATES_MAP_HEIGHT,
         this);
     addTouchSubscriber(statesMap);
+  }
+
+  private ArrayList<String> getAlcohol() {
+    ArrayList<String> alcohol = new ArrayList<String>();
+
+    for (int i = 0; i < 10; i++) {
+      alcohol.add("0." + Integer.toString(i));
+    }
+    return alcohol;
   }
 
   private void disableOtherButtons(VizButton button, boolean disable) {

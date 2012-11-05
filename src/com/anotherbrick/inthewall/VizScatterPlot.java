@@ -109,7 +109,7 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
 
   private ArrayList<Integer> getYears() {
     ArrayList<Integer> years = new ArrayList<Integer>();
-    for (int i = 2001; i <= 2011; i++) {
+    for (int i = 2001; i <= 2010; i++) {
       years.add(i);
     }
 
@@ -287,7 +287,8 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
         if (plotButton.containsPoint(x, y) && !plotButton.isDisabled()) {
           String xAxis = (String) xAxisVar.getSelected().get(0);
           String yAxis = (String) yAxisVar.getSelected().get(0);
-          setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, currentYear));
+          setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, currentYear,
+              currentState.getId()));
         }
       }
       propagateTouch(x, y, down, touchType);

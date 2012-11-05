@@ -233,6 +233,8 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       log("Selector = " + selector);
     } else if (eventName.equals("remove-graph")) {
       removePlotAtIndex(selector);
+    } else if (eventName.equals("state-changed")) {
+
     }
 
   }

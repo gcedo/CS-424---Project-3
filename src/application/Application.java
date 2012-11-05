@@ -88,10 +88,6 @@ public class Application extends VizPanel implements TouchEnabled {
     ft.setup();
     addTouchSubscriber(ft);
 
-    NotificationCenter.getInstance().notifyEvent("state-changed",
-        new StateInfo(17, "Illinois", new Location(40.633125f, -89.398528f), 6));
-    NotificationCenter.getInstance().notifyEvent("year-changed", 2001);
-
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();
     addTouchSubscriber(graph);
@@ -103,6 +99,10 @@ public class Application extends VizPanel implements TouchEnabled {
     timeslider = new VizTimeSlider(SLIDER_X0, SLIDER_Y0, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeslider.setup();
     addTouchSubscriber(timeslider);
+
+    NotificationCenter.getInstance().notifyEvent("state-changed",
+        new StateInfo(17, "Illinois", new Location(40.633125f, -89.398528f), 6));
+    NotificationCenter.getInstance().notifyEvent("year-changed", 2001);
 
     tabButton = new VizButton(BUTTON_X0, BUTTON_Y0, BUTTON_WIDTH, BUTTON_HEIGHT, this);
     tabButton.setStyle(MyColorEnum.MEDIUM_GRAY, WHITE, MyColorEnum.DARK_WHITE, 255, 255, 12);
