@@ -3,7 +3,6 @@ package com.anotherbrick.inthewall;
 import markers.AbstractMarker;
 import java.util.ArrayList;
 import processing.core.PVector;
-import java.lang.Math;
 import processing.core.*;
 
 public class Cluster extends AbstractMarker {
@@ -23,20 +22,20 @@ public class Cluster extends AbstractMarker {
 		
 		pos = new PVector(a.getX0(),a.getY0());
 		
-		if (scale>300) {
-			sCale_Num = 3;
+		if (scale>1024) {
+			sCale_Num = 48;
 		}
-		if (scale>200) {
+		if (scale>512) {
+			sCale_Num = 24;
+		}
+		else if (scale>256) {
+			sCale_Num = 12;
+		}
+		else if (scale>128) {
 			sCale_Num = 6;
 		}
-		else if (scale>100) {
-			sCale_Num = 10;
-		}
-		else if (scale>50) {
-			sCale_Num = 20;
-		}
 		else {
-			sCale_Num = 30;
+			sCale_Num = 3;
 		}
 	}
 	
@@ -56,18 +55,18 @@ public class Cluster extends AbstractMarker {
 			// TODO getX0 and getY0 may not be correct
 		}
 		// get the avg position in this cluster
-		else {
-			float avgX = 0;
-			float avgY = 0;
-			for (AbstractMarker m : markerList) {
-				avgX += m.getX0();
-				avgY += m.getY0();
-			}
-			avgX /= num;
-			avgY /= num;
-			pos.x = avgX;
-			pos.y = avgY;
-		}
+		//else {
+		//	float avgX = 0;
+		//	float avgY = 0;
+		//	for (AbstractMarker m : markerList) {
+		//		avgX += m.getX0();
+		//		avgY += m.getY0();
+		//	}
+		//	avgX /= num;
+		//	avgY /= num;
+		//	pos.x = avgX;
+		//	pos.y = avgY;
+		//}
 		this.num++;
 	}
 	
