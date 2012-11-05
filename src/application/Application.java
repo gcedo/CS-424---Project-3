@@ -9,6 +9,7 @@ import processing.core.PVector;
 
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 import com.anotherbrick.inthewall.FilterToolbox;
+import com.anotherbrick.inthewall.Legend;
 import com.anotherbrick.inthewall.NotificationCenter;
 import com.anotherbrick.inthewall.PlotData;
 import com.anotherbrick.inthewall.StateInfo;
@@ -59,6 +60,12 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float BUTTON_X0 = GRAPH_X0;
   private final float BUTTON_Y0 = SLIDER_Y0 + SLIDER_HEIGHT + 5;
 
+  private Legend legend;
+  private final float LEGEND_X0 = BUTTON_X0 + BUTTON_WIDTH + 5;
+  private final float LEGEND_Y0 = BUTTON_Y0;
+  private final float LEGEND_W = GRAPH_WIDTH - (BUTTON_WIDTH + 5);
+  private final float LEGEND_H = 40;
+
   private enum Mode {
     GRAPH, SCATTER
   }
@@ -80,6 +87,9 @@ public class Application extends VizPanel implements TouchEnabled {
 
   @Override
   public void setup() {
+
+    legend = new Legend(LEGEND_X0, LEGEND_Y0, LEGEND_W, LEGEND_H, this);
+
     map = new VizMap(MAP_X0, MAP_Y0, MAP_WIDTH, MAP_HEIGHT, this);
     map.setup();
     addTouchSubscriber(map);
@@ -136,6 +146,7 @@ public class Application extends VizPanel implements TouchEnabled {
     timeslider.draw();
     tabButton.draw();
     tabButton.drawTextCentered();
+    legend.draw();
 
     popStyle();
     return false;
