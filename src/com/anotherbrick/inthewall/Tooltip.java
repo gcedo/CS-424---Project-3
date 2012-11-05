@@ -1,5 +1,7 @@
 package com.anotherbrick.inthewall;
 
+import application.DBUtil;
+
 import com.anotherbrick.inthewall.Config.MyColorEnum;
 
 import processing.core.PApplet;
@@ -10,10 +12,12 @@ public class Tooltip extends VizPanel {
   private PShape background;
   private Integer id;
   private LocationWrapper wrapper;
+  private CrashDetails cd;
 
   public Tooltip(float x0, float y0, float width, float height, VizPanel parent, Integer id) {
     super(x0, y0, width, height, parent);
     this.id = id;
+    cd = DBUtil.getInstance().getCrashDetailsById(id);
   }
 
   @Override
@@ -33,10 +37,10 @@ public class Tooltip extends VizPanel {
 
     shape(background, 0, 0);
 
-    textSize(14);
-    textAlign(PApplet.LEFT, PApplet.CENTER);
+    textSize(8);
+    textAlign(PApplet.LEFT, PApplet.TOP);
     fill(MyColorEnum.DARK_GRAY);
-    text(Integer.toString(wrapper.getId()), 15, 15);
+    text(cd.toString(), 15, 5);
 
     popStyle();
     return false;

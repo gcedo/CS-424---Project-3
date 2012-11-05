@@ -69,16 +69,15 @@ public class Application extends VizPanel implements TouchEnabled {
 
     graph = new VizGraph(GRAPH_X0, GRAPH_Y0, GRAPH_WIDTH, GRAPH_HEIGHT, this);
     graph.setup();
-    // addTouchSubscriber(graph);
+    addTouchSubscriber(graph);
 
     sp = new VizScatterPlot(SP_X0, SP_Y0, SP_WIDTH, SP_HEIGHT, this);
     sp.setup();
-    addTouchSubscriber(sp);
+    // addTouchSubscriber(sp);
 
     timeslider = new VizTimeSlider(SLIDER_X0, SLIDER_Y0, SLIDER_WIDTH, SLIDER_HEIGHT, this, graph);
     timeslider.setup();
     addTouchSubscriber(timeslider);
-    addDummyPlots();
   }
 
   @Override
@@ -90,8 +89,8 @@ public class Application extends VizPanel implements TouchEnabled {
     coverExceedingTiles();
 
     ft.draw();
-    // graph.draw();
-    sp.draw();
+    graph.draw();
+    // sp.draw();
     timeslider.draw();
 
     popStyle();

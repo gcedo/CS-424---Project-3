@@ -144,8 +144,10 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled {
 
     background(MyColorEnum.LIGHT_ORANGE);
 
-    renderAxisLabels();
-    drawVolumeLabels();
+    if (dots != null) {
+      renderAxisLabels();
+      drawVolumeLabels();
+    }
 
     for (VizButton b : buttons) {
       b.draw();
