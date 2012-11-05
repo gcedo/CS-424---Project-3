@@ -41,7 +41,7 @@ public class VizList extends VizPanel implements TouchEnabled {
     if (!propagateTouch(x, y, down, touchType)) {
       if (!down) {
         Object element = null;
-        int row = (int) (((y - getY0Absolute()) / getHeight()) * numOfRows);
+        int row = (int) (((y - getY0AbsoluteZoom()) / getHeightZoom()) * numOfRows);
         if (isNested) {
           // get the right elements
           int index = 0;
