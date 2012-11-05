@@ -32,9 +32,12 @@ public class LocationWrapper {
 	this.id = id;
 	this.setLocation(location);
 	this.setMarkerType(markerType);
-	this.weather = weather;
-	this.light = light;
-	this.gender = gender;
+	if (weather != null)
+	    this.weather = weather;
+	if (light != null)
+	    this.light = light;
+	if (gender != null)
+	    this.gender = gender;
     }
 
     public LocationWrapper(Integer id, float lat, float lon, String weather,

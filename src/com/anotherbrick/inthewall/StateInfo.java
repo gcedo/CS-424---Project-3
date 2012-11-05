@@ -6,12 +6,14 @@ public class StateInfo {
     private Location loc;
     private Integer id;
     private String name;
+    private Integer zoomLevel;
 
-    public StateInfo(Integer id, String name, Location loc) {
+    public StateInfo(Integer id, String name, Location loc, Integer zoomLevel) {
 	super();
 	this.id = id;
 	this.name = name;
 	this.loc = loc;
+	this.zoomLevel = zoomLevel;
     }
 
     public Location getLoc() {
@@ -36,5 +38,9 @@ public class StateInfo {
 
     public void setName(String name) {
 	this.name = name;
+    }
+
+    public Integer getZoomLevel() {
+	return zoomLevel;
     }
 }

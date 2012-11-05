@@ -18,11 +18,13 @@ public class CrashDetails {
     private String avgAge;
     private String avgSpeed;
     private String maxSpeed;
+    private String alcohol;
 
     public CrashDetails(Integer id, String weather, String light,
 	    String gender, String vehicles, String month, String dayOfWeek,
 	    String day, String year, String time, String speedLimit,
-	    String fatalities, String avgAge, String avgSpeed, String maxSpeed) {
+	    String fatalities, String avgAge, String avgSpeed, String maxSpeed,
+	    String alcohol) {
 	super();
 	this.id = id;
 	this.weather = weather;
@@ -39,6 +41,7 @@ public class CrashDetails {
 	this.avgAge = avgAge;
 	this.avgSpeed = avgSpeed;
 	this.maxSpeed = maxSpeed;
+	this.alcohol = alcohol;
     }
 
     public Integer getId() {
@@ -90,15 +93,19 @@ public class CrashDetails {
 	return maxSpeed == null ? UNKNOWN : maxSpeed;
     }
 
+    public String getAlcohol() {
+	return alcohol == null ? UNKNOWN : alcohol;
+    }
+
     @Override
     public String toString() {
-	return "weather : " + weather + "\n light=" + light + "\n gender : "
-		+ gender + "\n vehicles : " + vehicles + "\n month : " + month
-		+ "\n dayOfWeek : " + dayOfWeek + "\n day : " + day
-		+ "\n year : " + year + "\n time : " + time
-		+ "\n speedLimit : " + speedLimit + "\n fatalities : "
-		+ fatalities + "\n avgAge : " + avgAge + "\n avgSpeed : "
-		+ avgSpeed + "\n maxSpeed : " + maxSpeed;
+	return "weather : " + getWeather() + "\n light=" + getLight()
+		+ "\n gender : " + getGender() + "\n vehicles : "
+		+ getVehicles() + "\n Date:" + getDate() + " " + getTime()
+		+ "\n speedLimit : " + getSpeedLimit() + "\n fatalities : "
+		+ getFatalities() + "\n avgAge : " + getAvgAge()
+		+ "\n avgSpeed : " + getAvgSpeed() + "\n maxSpeed : "
+		+ getMaxSpeed() + "\n alcohol: " + getAlcohol() + "% BAC ";
     }
 
 }
