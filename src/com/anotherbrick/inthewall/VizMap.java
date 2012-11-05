@@ -118,7 +118,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     zoomOut.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
     zoomOut.setText("-");
 
-    map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 0 : 4));
+    map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 2 : 0));
 
     m.p.addMouseWheelListener(new MouseWheelListener() {
       @Override
@@ -431,7 +431,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
   private void setState(StateInfo data) {
     currentState = data;
-    map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 4));
+    map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 2 : 0));
     fetchPoints();
 
   }
