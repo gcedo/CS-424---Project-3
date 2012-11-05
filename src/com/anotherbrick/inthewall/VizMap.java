@@ -113,7 +113,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	map = new InteractiveMap(m.p, new Microsoft.RoadProvider(),
 		mapOffset.x, mapOffset.y, mapSize.x, mapSize.y);
 
-	map.setCenterZoom(currentState.getLoc(), 6);
+	map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 3));
 
 	m.p.addMouseWheelListener(new MouseWheelListener() {
 	    @Override
@@ -439,7 +439,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     private void setState(StateInfo data) {
 	currentState = data;
-	map.setCenterZoom(currentState.getLoc(), 6);
+	map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 3));
 	fetchPoints();
 
     }

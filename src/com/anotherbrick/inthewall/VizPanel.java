@@ -50,11 +50,11 @@ public abstract class VizPanel {
 	return height;
     }
 
-    private float getWidthZoom() {
+    public float getWidthZoom() {
 	return widthZoom;
     }
 
-    private float getHeightZoom() {
+    public float getHeightZoom() {
 	return heightZoom;
     }
 
@@ -174,7 +174,7 @@ public abstract class VizPanel {
     public void ellipse(float a, float b, float c, float d) {
 	p.ellipse(x0Zoom + s(a), y0Zoom + s(b), s(c), s(d));
     }
-    
+
     public void ellipseMode(int mode) {
 	p.ellipseMode(mode);
     }
@@ -230,7 +230,7 @@ public abstract class VizPanel {
 	return x0;
     }
 
-    private float getX0AbsoluteZoom() {
+    public float getX0AbsoluteZoom() {
 	return x0Zoom;
     }
 
@@ -242,7 +242,7 @@ public abstract class VizPanel {
 	return y0;
     }
 
-    private float getY0AbsoluteZoom() {
+    public float getY0AbsoluteZoom() {
 	return y0Zoom;
     }
 
@@ -493,8 +493,8 @@ public abstract class VizPanel {
     public void vertex(float x, float y) {
 	p.vertex(s(x) + x0Zoom, s(y) + y0Zoom);
     }
-    
+
     public Main getP() {
-    	return p;
+	return p;
     }
 }
