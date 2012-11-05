@@ -183,9 +183,12 @@ public class VizList extends VizPanel implements TouchEnabled {
     if (!startDraw())
       return false;
     pushStyle();
-    noStroke();
-    background(MyColorEnum.MEDIUM_GRAY);
+    stroke(MyColorEnum.DARK_WHITE);
+    strokeWeight(0.5f);
+    fill(MyColorEnum.MEDIUM_GRAY);
+    rect(1, 1, getWidth() - 2, getHeight() - 2, 3, 3, 3, 3);
     //
+    noStroke();
     if (isNested) {
       for (int i = startIndex, j = 0; i < stopIndex && i < expandedSize && j < numOfRows; i++, j++) {
         VizRow row = new VizRow(5, rowHeight * j + 5, getWidth() - 30, rowHeight, this);
@@ -266,6 +269,8 @@ public class VizList extends VizPanel implements TouchEnabled {
     public boolean draw() {
       pushStyle();
       fill(MyColorEnum.LIGHT_GRAY);
+      strokeWeight(1);
+      stroke(MyColorEnum.LIGHT_BLUE);
       rect(2, 2, 16, 16, 5, 5, 5, 5);
       popStyle();
       return false;
@@ -289,8 +294,11 @@ public class VizList extends VizPanel implements TouchEnabled {
     @Override
     public boolean draw() {
       pushStyle();
+      stroke(MyColorEnum.DARK_WHITE);
+      strokeWeight(0.5f);
+      fill(MyColorEnum.DARK_GRAY);
+      rect(0, 0, getWidth(), getHeight(), 3, 3, 3, 3);
       noStroke();
-      background(MyColorEnum.DARK_GRAY);
       handle.draw();
       popStyle();
       updateHandlePosition();

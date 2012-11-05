@@ -56,7 +56,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
 
   private StatesMap statesMap;
 
-  private Integer currentYear;
+  private Integer currentYear = 2001;
   private StateInfo currentState;
 
   private HashMap<VizButton, VizList> listsAndButtons;
@@ -116,6 +116,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
   @Override
   public void setup() {
     NotificationCenter.getInstance().registerToEvent("state-changed", this);
+    NotificationCenter.getInstance().registerToEvent("year-changed", this);
 
     tab0Button = new VizButton(0, 62, TABBUTTON_W, TABBUTTON_H, this);
     tab0Button.setStyle(GRAPH_COLOR_1, WHITE, GRAPH_COLOR_1, 255, 255, 12);
@@ -151,7 +152,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(dayButton, dayList);
 
     // Weather Condition
-    weatherList = new VizList(FIRST_COL_X0, FIRST_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
+    weatherList = new VizList(FIRST_COL_X0, FIRST_ROW_Y0 + BUTTON_H, 2 * LIST_W + 25, LIST_H, this);
     weatherList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getWeatherConditions(), false,
         SelectionMode.MULTIPLE);
     weatherList.setListName(WEATHER_CONDITION);
@@ -188,8 +189,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(speedButton, speedList);
 
     // Type of Vehicle
-    vehicleList = new VizList(SECOND_COL_X0, SECOND_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
-    vehicleList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getVehicles(), false, SelectionMode.MULTIPLE);
+    vehicleList = new VizList(SECOND_COL_X0, SECOND_ROW_Y0 + BUTTON_H, LIST_W + 25, 90, this);
+    vehicleList.setup(LIGHT_GRAY, DARK_GRAY, 4, getVehicles(), false, SelectionMode.MULTIPLE);
     vehicleList.setListName(VEHICLE);
 
     vehicleButton = new VizButton(SECOND_COL_X0, SECOND_ROW_Y0, LIST_W, BUTTON_H, this);
@@ -206,7 +207,7 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(ageButton, ageList);
 
     // Hour
-    hourList = new VizList(SECOND_COL_X0, FOURTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
+    hourList = new VizList(SECOND_COL_X0, FOURTH_ROW_Y0 + BUTTON_H, 70, LIST_H, this);
     hourList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getHour(), false, SelectionMode.MULTIPLE);
     hourList.setListName(HOUR);
 
@@ -215,8 +216,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     listsAndButtons.put(hourButton, hourList);
 
     // Sex
-    sexList = new VizList(FIRST_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W, LIST_H, this);
-    sexList.setup(LIGHT_GRAY, DARK_GRAY, N_ROWS, getSex(), false, SelectionMode.MULTIPLE);
+    sexList = new VizList(FIRST_COL_X0, FIFTH_ROW_Y0 + BUTTON_H, LIST_W, 40, this);
+    sexList.setup(LIGHT_GRAY, DARK_GRAY, 2, getSex(), false, SelectionMode.MULTIPLE);
     sexList.setListName(SEX);
 
     sexButton = new VizButton(FIRST_COL_X0, FIFTH_ROW_Y0, LIST_W, BUTTON_H, this);
@@ -257,10 +258,10 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
   private void drawCurrentStatus() {
     pushStyle();
     fill(WHITE);
-    textSize(14);
+    textSize(18);
     textAlign(PApplet.LEFT, PApplet.TOP);
     text("Current Year: " + currentYear, 30, 10);
-    text("Current State: " + "Illinois", 30, 25);
+    text("Current State: " + "Illinois", 30, 35);
     popStyle();
   }
 
@@ -303,6 +304,8 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
     if (eventName.equals("state-changed")) {
       currentState = (StateInfo) data;
       log("Event received, current state: " + currentState.getName());
+    } else if (eventName.equals("year-changed")) {
+      currentYear = (Integer) data;
     }
 
   }

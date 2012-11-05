@@ -16,7 +16,9 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   public int TICK_COUNT = 10;
   public int CLUSTER_SIZE = 10;
-  public float PLOT_PADDING_LEFT = 40;
+  public float PLOT_PADDING_LEFT = 55;
+  public float PLOT_PADDING_RIGHT = 40;
+  public float PLOT_PADDING_TOP = 20;
   public float PLOT_PADDING_BOTTOM = 40;
   public float SLIDER_HEIGHT;
   public float SLIDER_WIDTH = 22;
@@ -46,10 +48,11 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   public VizGraph(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
-    SLIDER_HEIGHT = height - PLOT_PADDING_BOTTOM;
+    SLIDER_HEIGHT = height - PLOT_PADDING_BOTTOM - PLOT_PADDING_TOP;
     clustered = false;
     setPlots(new ArrayList<PlotData>());
-    yearSlider = new YearSlider(PLOT_PADDING_LEFT - HALF_SLIDER, 0, SLIDER_HEIGHT, this);
+    yearSlider = new YearSlider(PLOT_PADDING_LEFT - HALF_SLIDER, PLOT_PADDING_TOP, SLIDER_HEIGHT,
+        this);
     this.clusteredPlots = new ArrayList<PlotData>();
     if (plots.isEmpty()) {
       plots.ensureCapacity(4);
@@ -180,13 +183,12 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   @Override
   public boolean draw() {
-    // if (!startDraw())
-    // return false;
+
     pushStyle();
-    fill(MyColorEnum.DARK_GRAY);
-    rect(getX0(), getY0(), getWidth(), getHeight());
     textSize(20);
     drawBackground();
+
+    drawAxisLabels();
 
     ArrayList<PlotData> drawPlots = new ArrayList<PlotData>();
     for (PlotData p : getPlots()) {
@@ -206,11 +208,17 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       drawPlot(cluster, drawPlots);
     }
 
+    strokeWeight(0.8f);
+    stroke(MyColorEnum.DARK_WHITE);
+
+    line(PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM, getWidth() - PLOT_PADDING_RIGHT,
+        getHeight() - PLOT_PADDING_BOTTOM);
+    line(PLOT_PADDING_LEFT, PLOT_PADDING_TOP, PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM);
+
     forceYearSliderUpdate();
     yearSlider.draw();
     popStyle();
 
-    drawAxisLabels();
     return false;
   }
 
@@ -247,9 +255,9 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       for (int i = (int) xStart, j = 0; i <= xStop && j < points.size(); i++, j++) {
         System.out.println(i + ": y = " + ((PVector) p[i - (int) plot.getXMin()]).y);
         float x = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).x, xStart, xStop,
-            PLOT_PADDING_LEFT, getWidth());
+            PLOT_PADDING_LEFT, getWidth() - PLOT_PADDING_RIGHT);
         float y = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).y, 0, getOverallYMax(plots),
-            getHeight() - PLOT_PADDING_BOTTOM, 0);
+            getHeight() - PLOT_PADDING_BOTTOM, PLOT_PADDING_TOP);
         if (!clustered) {
           vertex(x, y);
         } else if (j != points.size() - 1) {
@@ -268,7 +276,7 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
       }
 
       if (plot.isFilled()) {
-        vertex(getWidth(), getHeight() - PLOT_PADDING_BOTTOM);
+        vertex(getWidth() - PLOT_PADDING_RIGHT, getHeight() - PLOT_PADDING_BOTTOM);
         vertex(PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM);
         endShape(PApplet.CLOSE);
       } else {
@@ -280,10 +288,15 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   private void drawBackground() {
     pushStyle();
-    noStroke();
-    background(MyColorEnum.DARK_GRAY);
+    fill(MyColorEnum.LIGHT_GRAY);
+    stroke(MyColorEnum.DARK_WHITE);
+    strokeWeight(1);
+    rect(0, 0, getWidth(), getHeight(), 5, 5, 5, 5);
+
     fill(MyColorEnum.MEDIUM_GRAY);
-    rect(PLOT_PADDING_LEFT, 0, getWidth() - PLOT_PADDING_LEFT, getHeight() - PLOT_PADDING_BOTTOM);
+    noStroke();
+    rect(PLOT_PADDING_LEFT, PLOT_PADDING_TOP, getWidth() - PLOT_PADDING_LEFT - PLOT_PADDING_RIGHT,
+        getHeight() - PLOT_PADDING_BOTTOM - PLOT_PADDING_TOP);
     popStyle();
   }
 
@@ -300,8 +313,10 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     textAlign(PApplet.CENTER, PApplet.TOP);
     textSize(12);
     for (int i = (int) xStart; i <= xStop; i++) {
-      int x = (int) PApplet.map(i, xStart, xStop, PLOT_PADDING_LEFT, getWidth());
-      text(Integer.toString(i), x, getHeight() - PLOT_PADDING_BOTTOM);
+      int x = (int) PApplet.map(i, xStart, xStop, PLOT_PADDING_LEFT, getWidth()
+          - PLOT_PADDING_RIGHT);
+      line(x, getHeight() - PLOT_PADDING_BOTTOM, x, getHeight() - 30);
+      text(Integer.toString(i), x, getHeight() - 30);
     }
     popStyle();
 
@@ -310,20 +325,19 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
   private void drawYAxisLabels() {
     int range;
     range = (int) getYTicksRange(TICK_COUNT, plots);
-
     range = range == 0 ? 1 : range;
 
     pushStyle();
+    textSize(12);
     stroke(MyColorEnum.WHITE);
     strokeWeight((float) 0.5);
     fill(MyColorEnum.WHITE);
     textAlign(PApplet.RIGHT, PApplet.CENTER);
     for (int i = 0; i < getOverallYMax(plots); i += range) {
-      int y = (int) PApplet.map(i, 0, getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM, 0);
-
-      text(Integer.toString(i), PLOT_PADDING_LEFT, y);
-
-      line(PLOT_PADDING_LEFT, y, getWidth(), y);
+      int y = (int) PApplet.map(i, 0, getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM,
+          PLOT_PADDING_TOP);
+      text(Integer.toString(i), PLOT_PADDING_LEFT - 4, y);
+      line(PLOT_PADDING_LEFT, y, getWidth() - PLOT_PADDING_RIGHT, y);
     }
     popStyle();
   }
@@ -355,10 +369,10 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
   public void forceYearSliderUpdate() {
     if (yearSlider.isMoving())
       yearSlider.modifyPositionWithAbsoluteValue(
-          costrain(m.touchX, getX0Absolute() + getWidth() - HALF_SLIDER, PLOT_PADDING_LEFT
-              - HALF_SLIDER + getX0Absolute()), getY0Absolute());
+          costrain(m.touchX, getX0Absolute() + getWidth() - HALF_SLIDER - PLOT_PADDING_RIGHT,
+              PLOT_PADDING_LEFT - HALF_SLIDER + getX0Absolute()), yearSlider.getY0Absolute());
     if (wasMoving && !yearSlider.moving)
-      setYear(yearSlider.getX0());
+      setYear(yearSlider.getX0() + SLIDER_WIDTH / 2);
     wasMoving = yearSlider.moving;
   }
 
@@ -389,7 +403,9 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
     @Override
     public boolean draw() {
       pushStyle();
-      shape(s, 0, 0, getWidth(), getHeight());
+      strokeWeight(2);
+      stroke(MyColorEnum.RED);
+      line(getWidth() / 2, 0, getWidth() / 2, getHeight());
       popStyle();
       return false;
     }

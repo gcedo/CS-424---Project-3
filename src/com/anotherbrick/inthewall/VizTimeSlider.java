@@ -13,7 +13,7 @@ import com.anotherbrick.inthewall.Config.MyColorEnum;
 
 public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscriber {
 
-  public float PADDING_LEFT = 40;
+  public float PADDING_LEFT = 55;
   public float HANDLE_WIDTH = 20;
   public float HANDLE_HEIGHT = 25;
   public float PADDING_BOTTOM = 13;
@@ -91,6 +91,7 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscr
   @Override
   public boolean draw() {
     pushStyle();
+    noStroke();
     background(MyColorEnum.DARK_GRAY);
     rectMode(PApplet.CORNER);
     fill(MyColorEnum.MEDIUM_GRAY);
@@ -300,7 +301,12 @@ public class VizTimeSlider extends VizPanel implements TouchEnabled, EventSubscr
 
     @Override
     public boolean draw() {
-      background(MyColorEnum.WHITE);
+      pushStyle();
+      fill(MyColorEnum.MEDIUM_GRAY, 240);
+      stroke(MyColorEnum.DARK_WHITE);
+      strokeWeight(1);
+      rect(0, 0, getWidth(), getHeight(), 5, 5, 5, 5);
+      popStyle();
       return false;
     }
 
