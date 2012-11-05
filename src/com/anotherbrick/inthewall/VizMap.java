@@ -60,6 +60,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
   private VizList changeMapMode;
   private VizButton changeModeToggle;
   private Tooltip tooltip;
+  private VizButton zoomIn, zoomOut;
 
   public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
@@ -99,7 +100,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     map = new InteractiveMap(m.p, new Microsoft.RoadProvider(), mapOffset.x, mapOffset.y,
         mapSize.x, mapSize.y);
 
-    map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 3));
+    zoomIn = new VizButton(getWidth() - 20, 150, 20, 20, this);
+    zoomIn.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
+    zoomIn.setText("+");
+    zoomOut = new VizButton(getWidth() - 20, 175, 20, 20, this);
+    zoomOut.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
+    zoomOut.setText("-");
+
+    map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 0 : 3));
 
     m.p.addMouseWheelListener(new MouseWheelListener() {
       @Override
@@ -112,12 +120,18 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
   @Override
   public boolean draw() {
+
     updateMapZoomAndPosition();
     pushStyle();
 
     background(MyColorEnum.BLACK);
     map.draw();
     drawLocationMarkers();
+
+    zoomIn.draw();
+    zoomIn.drawTextCentered();
+    zoomOut.draw();
+    zoomOut.drawTextCentered();
 
     noFill();
     stroke(MyColorEnum.RED);
@@ -249,8 +263,6 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     if (mapTouched && m.touchX != lastTouchPos.x && m.touchY != lastTouchPos.y && m.touchX != 0
         && m.touchY != 0) {
 
-      System.out.println("======== updateMapZoomAndPosition ========");
-
       map.tx += (m.touchX - lastTouchPos.x) * c.multiply / map.sc;
       map.ty += (m.touchY - lastTouchPos.y) * c.multiply / map.sc;
       map.tx = costrain((float) map.tx, TX_MAX, TX_MIN);
@@ -285,14 +297,20 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       return false;
     }
 
+    if (down && zoomIn.containsPoint(x, y)) {
+      map.setZoom(map.getZoom() + 1);
+      updateLocationMarkersPosition();
+    }
+
+    if (down && zoomOut.containsPoint(x, y)) {
+      map.setZoom(map.getZoom() - 1);
+      updateLocationMarkersPosition();
+    }
+
     if (down) {
 
       lastTouchPos.x = m.touchX;
       lastTouchPos.y = m.touchY;
-
-      System.out.println("====== Touch =======");
-      System.out.println("touch : lastTouchPos.x" + x);
-      System.out.println("touch : lastTouchPos.y" + y);
 
       mapTouched = true;
 
