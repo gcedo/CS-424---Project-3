@@ -42,6 +42,7 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
   private String xLabel = "x label";
   private String yLabel = "y label";
   private int currentYear = 2001;
+  private StateInfo currentState;
 
   private VizList xAxisVar, yAxisVar, yearList;
   private VizButton xAxisButton, yAxisButton, yearButton, plotButton;
@@ -59,6 +60,7 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
   @Override
   public void setup() {
     NotificationCenter.getInstance().registerToEvent("year-changed-timeslider", this);
+    NotificationCenter.getInstance().registerToEvent("state-changed", this);
 
     buttons = new ArrayList<VizButton>();
 
@@ -290,6 +292,9 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled, EventSubsc
     if (eventName.equals("year-changed-timeslider")) {
       currentYear = (Integer) data;
       log("Year changed received, current year = " + currentYear);
+    } else if (eventName.equals("state-changed")) {
+      currentState = (StateInfo) data;
+      log("State changed received, current state = " + currentState.getName());
     }
   }
 }

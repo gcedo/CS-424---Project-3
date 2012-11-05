@@ -113,12 +113,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     map = new InteractiveMap(m.p, new Microsoft.RoadProvider(), mapOffset.x, mapOffset.y,
         mapSize.x, mapSize.y);
 
-    zoomIn = new VizButton(getWidth() - 20, 150, 20, 20, this);
+    zoomIn = new VizButton(getWidth() - 22, 150, 20, 20, this);
     zoomIn.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
     zoomIn.setText("+");
-    zoomOut = new VizButton(getWidth() - 20, 175, 20, 20, this);
+    zoomIn.setRoundedCornerd(5, 5, 5, 5);
+    zoomOut = new VizButton(getWidth() - 22, 175, 20, 20, this);
     zoomOut.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
     zoomOut.setText("-");
+    zoomOut.setRoundedCornerd(5, 5, 5, 5);
 
     map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 2 : 0));
 
