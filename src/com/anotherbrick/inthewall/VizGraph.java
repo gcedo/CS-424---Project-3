@@ -248,8 +248,8 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
         System.out.println(i + ": y = " + ((PVector) p[i - (int) plot.getXMin()]).y);
         float x = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).x, xStart, xStop,
             PLOT_PADDING_LEFT, getWidth());
-        float y = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).y, 0,
-            getOverallYMax(plots), getHeight() - PLOT_PADDING_BOTTOM, 0);
+        float y = PApplet.map(((PVector) p[i - (int) plot.getXMin()]).y, 0, getOverallYMax(plots),
+            getHeight() - PLOT_PADDING_BOTTOM, 0);
         if (!clustered) {
           vertex(x, y);
         } else if (j != points.size() - 1) {
@@ -334,17 +334,20 @@ public class VizGraph extends VizPanel implements TouchEnabled, EventSubscriber 
 
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
-    if (down) {
-      if (overYearSlider(x, y)) {
-        yearSlider.moving = true;
+    if (isVisible()) {
+      if (down) {
+        if (overYearSlider(x, y)) {
+          yearSlider.moving = true;
+        }
+        setModal(true);
+        return true;
+      } else if (!down) {
+        yearSlider.moving = false;
+        setModal(false);
       }
-      setModal(true);
-      return true;
-    } else if (!down) {
-      yearSlider.moving = false;
-      setModal(false);
     }
     return false;
+
   }
 
   private boolean wasMoving = false;

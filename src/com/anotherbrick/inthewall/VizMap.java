@@ -37,8 +37,6 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
   private static final float CHANGE_MARKERS_X0 = 340;
   private static final float CHANGE_MARKERS_Y0 = CHANGE_MODE_TOGGLE_Y0 - CHANGE_MODE_H;
 
-  private MarkerType markersType = MarkerType.GENDER;
-
   private InteractiveMap map;
   private PVector mapOffset;
   private PVector mapSize;

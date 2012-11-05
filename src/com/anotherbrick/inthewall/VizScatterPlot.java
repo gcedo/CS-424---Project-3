@@ -236,48 +236,50 @@ public class VizScatterPlot extends VizPanel implements TouchEnabled {
 
   @Override
   public boolean touch(float x, float y, boolean down, TouchTypeEnum touchType) {
-    if (down) {
+    if (isVisible()) {
+      if (down) {
 
-      if (xAxisButton.containsPoint(x, y) && !xAxisButton.isDisabled()) {
-        xAxisVar.toggleVisible();
-        if (!xAxisVar.isVisible()) {
-          xLabel = !xAxisVar.getSelected().isEmpty() ? (String) xAxisVar.getSelected().get(0)
-              : "x Axis";
-          disableOtherButtons(xAxisButton, false);
-        } else {
-          disableOtherButtons(xAxisButton, true);
-        }
-      }
-
-      if (yAxisButton.containsPoint(x, y) && !yAxisButton.isDisabled()) {
-        yAxisVar.toggleVisible();
-        if (!yAxisVar.isVisible()) {
-          yLabel = !yAxisVar.getSelected().isEmpty() ? (String) yAxisVar.getSelected().get(0)
-              : "y Axis";
-          disableOtherButtons(yAxisButton, false);
-        } else {
-          disableOtherButtons(yAxisButton, true);
-        }
-      }
-
-      if (yearButton.containsPoint(x, y) && !yearButton.isDisabled()) {
-        yearList.toggleVisible();
-        if (!yearList.isVisible()) {
-          disableOtherButtons(yearButton, false);
-        } else {
-          disableOtherButtons(yearButton, true);
+        if (xAxisButton.containsPoint(x, y) && !xAxisButton.isDisabled()) {
+          xAxisVar.toggleVisible();
+          if (!xAxisVar.isVisible()) {
+            xLabel = !xAxisVar.getSelected().isEmpty() ? (String) xAxisVar.getSelected().get(0)
+                : "x Axis";
+            disableOtherButtons(xAxisButton, false);
+          } else {
+            disableOtherButtons(xAxisButton, true);
+          }
         }
 
-      }
+        if (yAxisButton.containsPoint(x, y) && !yAxisButton.isDisabled()) {
+          yAxisVar.toggleVisible();
+          if (!yAxisVar.isVisible()) {
+            yLabel = !yAxisVar.getSelected().isEmpty() ? (String) yAxisVar.getSelected().get(0)
+                : "y Axis";
+            disableOtherButtons(yAxisButton, false);
+          } else {
+            disableOtherButtons(yAxisButton, true);
+          }
+        }
 
-      if (plotButton.containsPoint(x, y) && !plotButton.isDisabled()) {
-        String xAxis = (String) xAxisVar.getSelected().get(0);
-        String yAxis = (String) yAxisVar.getSelected().get(0);
-        Integer year = (Integer) yearList.getSelected().get(0);
-        setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, year));
+        if (yearButton.containsPoint(x, y) && !yearButton.isDisabled()) {
+          yearList.toggleVisible();
+          if (!yearList.isVisible()) {
+            disableOtherButtons(yearButton, false);
+          } else {
+            disableOtherButtons(yearButton, true);
+          }
+
+        }
+
+        if (plotButton.containsPoint(x, y) && !plotButton.isDisabled()) {
+          String xAxis = (String) xAxisVar.getSelected().get(0);
+          String yAxis = (String) yAxisVar.getSelected().get(0);
+          Integer year = (Integer) yearList.getSelected().get(0);
+          setDots(DBUtil.getInstance().getScatterData(xAxis, yAxis, year));
+        }
       }
+      propagateTouch(x, y, down, touchType);
     }
-    propagateTouch(x, y, down, touchType);
     return false;
   }
 }
