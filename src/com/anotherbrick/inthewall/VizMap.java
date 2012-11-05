@@ -45,6 +45,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     private PVector lastTouchPos;
     private HashMap<Integer, LocationWrapper> locationsList;
     private ArrayList<AbstractMarker> markers;
+    private ArrayList<Cluster> clusters;
     private boolean mapTouched;
     public float MARKER_WIDTH = 10;
     public float MARKER_HEIGHT = 10;
@@ -112,6 +113,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
 	locationsList = new HashMap<Integer, LocationWrapper>();
 	markers = new ArrayList<AbstractMarker>();
+	clusters = new ArrayList<Cluster>();
 
 	mapOffset = new PVector(0, 0);
 	mapSize = new PVector(getWidthZoom(), getHeightZoom());
@@ -206,7 +208,8 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 		a.draw();
 	    }
 	} else {
-	    ArrayList<Cluster> clusters = new ArrayList<Cluster>();
+	    //ArrayList<Cluster> clusters = new ArrayList<Cluster>();
+	    clusters.clear();
 	    for (AbstractMarker a : markers) {
 		if (a.getX0() < this.getX0()
 			|| a.getX0() > this.getX0() + getWidth()
@@ -371,17 +374,38 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 		tooltip.setVisible(false);
 	    }
 
-	    for (AbstractMarker marker : markers) {
-		if (marker.containsPoint(x, y) && map.sc > CLUSTER_SC_MAX) {
-		    LocationWrapper wrapper = locationsList.get(marker.getId());
-		    Location location = wrapper.getLocation();
-		    log("You have touched location located at lat: "
-			    + location.lat + " and long: " + location.lon);
-		    tooltip = new Tooltip(marker.getX0() - TTIP_W / 2
-			    + MARKER_WIDTH / 2, marker.getY0() - TTIP_H,
-			    TTIP_W, TTIP_H, this, marker.getId());
-		    tooltip.setup(wrapper);
-		}
+	    if (map.sc > CLUSTER_SC_MAX) {
+	    	for (AbstractMarker marker : markers) {
+	    		if (marker.containsPoint(x, y)) {
+	    		    LocationWrapper wrapper = locationsList.get(marker.getId());
+	    		    Location location = wrapper.getLocation();
+	    		    log("You have touched location located at lat: "
+	    			    + location.lat + " and long: " + location.lon);
+	    		    tooltip = new Tooltip(marker.getX0() - TTIP_W / 2
+	    			    + MARKER_WIDTH / 2, marker.getY0() - TTIP_H,
+	    			    TTIP_W, TTIP_H, this, marker.getId());
+	    		    tooltip.setup(wrapper);
+	    		}
+	    	}
+	    }
+	    else {
+	    	for (Cluster cl : clusters) {
+	    		if (cl.isDrawingMarkers() == true) {
+	    			for (AbstractMarker marker : cl.getMarkers()) {
+	    				if (marker.containsPoint(x, y)) {
+	    					LocationWrapper wrapper = locationsList.get(marker.getId());
+	    	    		    Location location = wrapper.getLocation();
+	    	    		    log("You have touched location located at lat: "
+	    	    			    + location.lat + " and long: " + location.lon);
+	    	    		    tooltip = new Tooltip(marker.getX0() - TTIP_W / 2
+	    	    			    + MARKER_WIDTH / 2, marker.getY0() - TTIP_H,
+	    	    			    TTIP_W, TTIP_H, this, marker.getId());
+	    	    		    tooltip.setup(wrapper);
+	    				}
+	    			}
+	    		}
+	    		
+	    	}
 	    }
 	} else if (!down) {
 	    mapTouched = false;
