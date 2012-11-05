@@ -34,6 +34,8 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
   private static final float TTIP_W = 150;
 
   private static final float CHANGE_MODE_Y0 = CHANGE_MODE_TOGGLE_Y0 - CHANGE_MODE_H;
+  private static final float CHANGE_MARKERS_X0 = 340;
+  private static final float CHANGE_MARKERS_Y0 = CHANGE_MODE_TOGGLE_Y0 - CHANGE_MODE_H;
 
   private MarkerType markersType = MarkerType.GENDER;
 
@@ -57,10 +59,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       -89.398528f));
   public Integer currentYear = 2001;
 
-  private VizList changeMapMode;
+  private VizList changeMapMode, changeMarkers;
   private VizButton changeModeToggle;
   private Tooltip tooltip;
-  private VizButton zoomIn, zoomOut;
+  private VizButton zoomIn, zoomOut, changeMarkersButton;
 
   public VizMap(float x0, float y0, float width, float height, VizPanel parent) {
     super(x0, y0, width, height, parent);
@@ -91,6 +93,15 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     setModal(false);
     lastTouchPos = new PVector();
 
+    changeMarkers = new VizList(CHANGE_MARKERS_X0, CHANGE_MARKERS_Y0, CHANGE_MODE_W, CHANGE_MODE_H,
+        this);
+    changeMarkers.setup(LIGHT_GRAY, DARK_GRAY, CHANGE_MODE_ROWS, markersTypes(), false,
+        SelectionMode.SINGLE);
+    changeMarkers.setVisible(false);
+    changeMarkersButton = new VizButton(CHANGE_MODE_TOGGLE_X0 + CHANGE_MODE_W,
+        CHANGE_MODE_TOGGLE_Y0, CHANGE_MODE_W, CHANGE_MODE_TOGGLE_H, this);
+    addTouchSubscriber(changeMarkers);
+
     locationsList = new HashMap<Integer, LocationWrapper>();
     markers = new ArrayList<AbstractMarker>();
 
@@ -107,7 +118,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     zoomOut.setStyle(MEDIUM_GRAY, WHITE, WHITE, 255, 255, 14);
     zoomOut.setText("-");
 
-    map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 0 : 3));
+    map.setCenterZoom(currentState.getLoc(), 3 + (c.onWall ? 0 : 4));
 
     m.p.addMouseWheelListener(new MouseWheelListener() {
       @Override
@@ -116,6 +127,15 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       }
     });
 
+  }
+
+  private ArrayList<String> markersTypes() {
+    ArrayList<String> markers = new ArrayList<String>();
+    markers.add("Weather");
+    markers.add("Sex");
+    markers.add("Light Condition");
+
+    return markers;
   }
 
   @Override
@@ -135,6 +155,11 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     noFill();
     stroke(MyColorEnum.RED);
+
+    changeMarkers.draw();
+    changeMarkers.setToRedraw();
+
+    changeMarkersButton.draw();
 
     changeMapMode.setToRedraw();
     changeMapMode.draw();
@@ -225,7 +250,6 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       LocationWrapper wrapper = pair.getValue();
       Point2f point = map.locationPoint(wrapper.getLocation());
       Integer id = pair.getKey();
-      wrapper.setMarkerType(markersType);
       AbstractMarker marker = wrapper.getCorrespondingMarker(point.x / s(1), point.y / s(1),
           MARKER_WIDTH, MARKER_HEIGHT, this, id);
       marker.setup();
@@ -297,6 +321,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
       return false;
     }
 
+    if (down && changeMarkersButton.containsPoint(x, y)) {
+      if (changeMarkers.isVisible()) {
+        changeMarkers((String) changeMarkers.getSelected().get(0));
+      }
+      changeMarkers.toggleVisible();
+      return false;
+    }
+
     if (down && zoomIn.containsPoint(x, y)) {
       map.setZoom(map.getZoom() + 1);
       updateLocationMarkersPosition();
@@ -335,6 +367,24 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     propagateTouch(x, y, down, touchType);
     return false;
+  }
+
+  private void changeMarkers(String markerName) {
+
+    MarkerType markerType = MarkerType.DEFAULT_MARKER;
+
+    if (markerName.equals("Weather")) {
+      markerType = MarkerType.WEATHER;
+    } else if (markerName.equals("Sex")) {
+      markerType = MarkerType.GENDER;
+    } else if (markerName.equals("Light Condition")) {
+      markerType = MarkerType.LIGHT;
+    }
+    for (LocationWrapper location : locationsList.values()) {
+      location.setMarkerType(markerType);
+    }
+    updateLocationMarkers();
+
   }
 
   protected void mouseWheel(int wheelRotation) {
@@ -381,7 +431,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
   private void setState(StateInfo data) {
     currentState = data;
-    map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 3));
+    map.setCenterZoom(currentState.getLoc(), 6 + (c.onWall ? 0 : 4));
     fetchPoints();
 
   }
