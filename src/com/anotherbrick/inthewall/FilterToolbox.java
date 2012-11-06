@@ -94,6 +94,11 @@ public class FilterToolbox extends VizPanel implements TouchEnabled, EventSubscr
         }
         NotificationCenter.getInstance().notifyEvent("update-graph",
             DBUtil.getInstance().getCounts(fw, currentState.getId()));
+        if (selector == 0) {
+          NotificationCenter.getInstance().notifyEvent("filter0-update", fw);
+        } else if (selector == 0) {
+          NotificationCenter.getInstance().notifyEvent("filter1-update", fw);
+        }
       }
 
       for (Map.Entry<VizButton, VizList> entry : listsAndButtons.entrySet()) {
