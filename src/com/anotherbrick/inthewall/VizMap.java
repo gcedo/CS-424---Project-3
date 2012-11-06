@@ -105,8 +105,10 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	addTouchSubscriber(changeMarkers);
 
 	NotificationCenter.getInstance().registerToEvent("year-changed", this);
-	NotificationCenter.getInstance().registerToEvent("state-changed", this);
-
+	NotificationCenter.getInstance().registerToEvent("filter0-updated",
+		this);
+	NotificationCenter.getInstance().registerToEvent("filter1-updated",
+		this);
     }
 
     @Override
