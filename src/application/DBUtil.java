@@ -83,13 +83,23 @@ public class DBUtil {
     }
 
     public ArrayList<LocationWrapper> getPointsByState(Integer stateId,
-	    Integer year) {
+	    Integer year, FilterWrapper fw) {
 	System.out.println("Getting counts...");
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
 	    String queryString = "SELECT id, latitude, longitude, weather, lightcondition, sex FROM crashes WHERE stateid = "
 		    + stateId + " AND year = " + year;
+	    HashMap<String, ArrayList<String>> filters = fw.getConditions();
+	    if (filters.size() > 0) {
+		queryString += " AND ";
+		for (String key : filters.keySet()) {
+		    queryString += "( ";
+		    queryString += generateFilters(key, filters.get(key));
+		    queryString += " FALSE ) AND ";
+		}
+		queryString += "TRUE ";
+	    }
 	    ResultSet r = stm.executeQuery(queryString);
 	    while (r.next()) {
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
