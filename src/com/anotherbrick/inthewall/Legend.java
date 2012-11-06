@@ -7,7 +7,7 @@ import static com.anotherbrick.inthewall.Helper.*;
 
 public class Legend extends VizPanel implements EventSubscriber {
 
-  private String filter1 = "sdfghjklwertyuikolsxdcfvgbhnjmksxdcfvgbhnmsdxcfvgbhndcfvgbh";
+  private String filter1 = "Graph 1";
   private String filter2 = "Graph 2";
 
   public Legend(float x0, float y0, float width, float height, VizPanel parent) {
