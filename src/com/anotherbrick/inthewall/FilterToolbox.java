@@ -91,18 +91,21 @@ public class FilterToolbox extends VizPanel implements TouchEnabled,
 			selector);
 	    }
 
-	    if (applyButton.containsPoint(x, y)) {
-		fw.clearFilters(CRASH_ID);
-		for (VizList list : listsAndButtons.values()) {
-		    for (Object filter : list.getSelected()) {
-			fw.addFilter(list.getListName(), (String) filter);
-		    }
-		}
-		NotificationCenter.getInstance().notifyEvent(
-			"update-graph",
-			DBUtil.getInstance()
-				.getCounts(fw, currentState.getId()));
-	    }
+      if (applyButton.containsPoint(x, y)) {
+        fw.clearFilters(CRASH_ID);
+        for (VizList list : listsAndButtons.values()) {
+          for (Object filter : list.getSelected()) {
+            fw.addFilter(list.getListName(), (String) filter);
+          }
+        }
+        NotificationCenter.getInstance().notifyEvent("update-graph",
+            DBUtil.getInstance().getCounts(fw, currentState.getId()));
+        if (selector == 0) {
+          NotificationCenter.getInstance().notifyEvent("filter0-update", fw);
+        } else if (selector == 0) {
+          NotificationCenter.getInstance().notifyEvent("filter1-update", fw);
+        }
+      }
 
 	    for (Map.Entry<VizButton, VizList> entry : listsAndButtons
 		    .entrySet()) {
