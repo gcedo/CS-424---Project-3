@@ -30,7 +30,10 @@ public class HistoricalEvent extends VizPanel {
 
     switch (stateId) {
     case 17:
-      text("Illinois", 5, 5);
+      text("In 2003 Illinois introduced new laws about\n"
+          + "seatbelts. This successfully led to \n" + "a dicrease in the number of crashes.\n"
+          + "When the laws are perceived as 'on \n" + " the driver side', trying to enchance \n"
+          + "its safety, good results are soon to come.", 5, 5);
       break;
     case 26: // Missisipi
       text("In 2006 the state of Michigan revised its speed\n"

@@ -67,10 +67,10 @@ public class Application extends VizPanel implements TouchEnabled {
   private final float LEGEND_H = 40;
 
   private VizButton historyButton;
-  private final float HISTORY_H = 20;
-  private final float HISTORY_W = 40;
-  private final float HISTORY_X0 = getWidth() - HISTORY_W - 2;
-  private final float HISTORY_Y0 = getHeight() / 2 - HISTORY_H;
+  private final float HISTORY_H = 25;
+  private final float HISTORY_W = 60;
+  private final float HISTORY_X0 = SLIDER_WIDTH + SLIDER_X0 + 5;
+  private final float HISTORY_Y0 = SLIDER_Y0;
 
   private enum Mode {
     GRAPH, SCATTER
@@ -103,6 +103,7 @@ public class Application extends VizPanel implements TouchEnabled {
     historyButton = new VizButton(HISTORY_X0, HISTORY_Y0, HISTORY_W, HISTORY_H, this);
     historyButton.setStyle(MyColorEnum.MEDIUM_GRAY, WHITE, MyColorEnum.DARK_WHITE, 255, 255, 12);
     historyButton.setRoundedCornerd(5, 5, 5, 5);
+    historyButton.setText("Events");
 
     map = new VizMap(MAP_X0, MAP_Y0, MAP_WIDTH, MAP_HEIGHT, this);
     map.setup();
@@ -162,6 +163,7 @@ public class Application extends VizPanel implements TouchEnabled {
     tabButton.drawTextCentered();
     legend.draw();
     historyButton.draw();
+    historyButton.drawTextCentered();
 
     popStyle();
     return false;
