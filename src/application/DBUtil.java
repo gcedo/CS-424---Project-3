@@ -210,7 +210,9 @@ public class DBUtil {
 
 	String q = "SELECT DISTINCT " + x + ", " + y
 		+ " FROM crashes WHERE year = '" + year.toString()
-		+ "' AND stateid =" + stateId + " ORDER BY " + x + ", " + y;
+		+ "' AND stateid =" + stateId + " AND " + x
+		+ " IS NOT NULL AND " + y + " IS NOT NULL ORDER BY " + x + ", "
+		+ y;
 	System.out.println("Query Scatter: " + q);
 	Statement stm;
 	try {
@@ -225,5 +227,4 @@ public class DBUtil {
 
 	return points;
     }
-
 }

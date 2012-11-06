@@ -104,11 +104,13 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	changeMarkersButton.setText("Change Markers");
 	addTouchSubscriber(changeMarkers);
 
+	NotificationCenter.getInstance().registerToEvent("state-changed", this);
+
 	NotificationCenter.getInstance().registerToEvent("year-changed", this);
-	NotificationCenter.getInstance().registerToEvent("filter0-updated",
-		this);
-	NotificationCenter.getInstance().registerToEvent("filter1-updated",
-		this);
+	NotificationCenter.getInstance()
+		.registerToEvent("filter0-update", this);
+	NotificationCenter.getInstance()
+		.registerToEvent("filter1-update", this);
     }
 
     @Override
@@ -481,13 +483,14 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 
     @Override
     public void eventReceived(String eventName, Object data) {
+	log(eventName);
 	if (eventName.equals("year-changed"))
 	    setYear((Integer) data);
 	if (eventName.equals("state-changed"))
 	    setState((StateInfo) data);
-	if (eventName.equals("filter0-update")
+	if (eventName.equals("filter1-update")
 		|| eventName.equals("filter0-update")) {
-	    setFilterWrapper(fw);
+	    setFilterWrapper((FilterWrapper) data);
 	}
 
     }
