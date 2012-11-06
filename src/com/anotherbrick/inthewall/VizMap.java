@@ -40,6 +40,8 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
     private static final float CHANGE_MARKERS_Y0 = CHANGE_MODE_TOGGLE_Y0
 	    - CHANGE_MODE_H;
 
+    private MarkerType currentMarkerType = MarkerType.DEFAULT_MARKER;
+
     private InteractiveMap map;
     private PVector mapOffset;
     private PVector mapSize;
@@ -275,6 +277,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	    LocationWrapper wrapper = pair.getValue();
 	    Point2f point = map.locationPoint(wrapper.getLocation());
 	    Integer id = pair.getKey();
+	    wrapper.setMarkerType(currentMarkerType);
 	    AbstractMarker marker = wrapper.getCorrespondingMarker(point.x
 		    / s(1), point.y / s(1), MARKER_WIDTH, MARKER_HEIGHT, this,
 		    id);
@@ -440,9 +443,7 @@ public class VizMap extends VizPanel implements TouchEnabled, EventSubscriber {
 	} else if (markerName.equals("Light Condition")) {
 	    markerType = MarkerType.LIGHT;
 	}
-	for (LocationWrapper location : locationsList.values()) {
-	    location.setMarkerType(markerType);
-	}
+	currentMarkerType = markerType;
 	updateLocationMarkers();
 
     }
