@@ -88,9 +88,9 @@ public class DBUtil {
 	ArrayList<LocationWrapper> ret = new ArrayList<LocationWrapper>();
 	try {
 	    Statement stm = con.createStatement();
-	    ResultSet r = stm
-		    .executeQuery("SELECT id, latitude, longitude, weather, lightcondition, sex FROM crashes WHERE stateid = "
-			    + stateId + " AND year = " + year);
+	    String queryString = "SELECT id, latitude, longitude, weather, lightcondition, sex FROM crashes WHERE stateid = "
+		    + stateId + " AND year = " + year;
+	    ResultSet r = stm.executeQuery(queryString);
 	    while (r.next()) {
 		ret.add(new LocationWrapper(new Integer(r.getInt(1)), r
 			.getFloat(2), r.getFloat(3), r.getString(4), r
